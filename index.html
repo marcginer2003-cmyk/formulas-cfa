@@ -244,8 +244,9 @@ h1.fname { font-size: 26px; line-height: 1.18; letter-spacing: -0.022em; font-we
 .btn-green { background: var(--green); color: #fff; }
 .btn-red { background: var(--red); color: #fff; }
 @media (max-width: 420px) {
-  .btn-secondary .lbl { display: none; }
-  .btn-secondary { width: 52px; padding: 0; }
+  #btn-hint .lbl { display: none; }
+  #btn-hint { width: 52px; padding: 0; }
+  #btn-skip { padding: 0 14px; }
 }
 
 /* ---------- Feedback sheet ---------- */
@@ -433,6 +434,60 @@ body { -webkit-touch-callout: none; touch-action: manipulation; }
 .badge-fail { font-size: 11px; font-weight: 700; letter-spacing: .03em; text-transform: uppercase; color: var(--red); background: color-mix(in srgb, var(--red) 12%, transparent); padding: 3px 8px; border-radius: 6px; flex: none; }
 [hidden] { display: none !important; }
 .badge-fail, .badge-new { white-space: nowrap; }
+
+/* ---------- Quiz: barra tipo rosco ---------- */
+.quiz-bar { flex: 1; display: flex; gap: 4px; height: 8px; }
+.quiz-bar .seg { flex: 1; border-radius: 4px; background: var(--fill); transition: background-color .3s, transform .3s var(--spring); }
+.quiz-bar .seg.ok { background: var(--green); }
+.quiz-bar .seg.bad { background: var(--red); }
+.quiz-bar .seg.passed { background: var(--orange); }
+.quiz-bar .seg.cur { background: var(--blue); transform: scaleY(1.35); }
+.quiz-bar .seg.cur.passed { background: var(--orange); box-shadow: 0 0 0 2px color-mix(in srgb, var(--orange) 35%, transparent); }
+.badge-pass { font-size: 11px; font-weight: 700; letter-spacing: .03em; text-transform: uppercase; color: var(--orange); background: color-mix(in srgb, var(--orange) 14%, transparent); padding: 3px 8px; border-radius: 6px; flex: none; white-space: nowrap; }
+.btn-secondary.reveal { color: var(--red); }
+
+/* ---------- Botones de información ---------- */
+h1.fname { display: block; }
+.info-btn {
+  display: inline-grid; place-items: center; width: 24px; height: 24px; border-radius: 12px; margin-left: 8px;
+  vertical-align: 3px; border: 1.6px solid var(--blue); color: var(--blue);
+  font: italic 700 14px/1 Georgia, "Times New Roman", serif; letter-spacing: 0;
+}
+.info-btn:active { opacity: .5; }
+.info-btn.small { width: 18px; height: 18px; margin: 0 6px 0 0; font-size: 11px; border-width: 1.4px; vertical-align: 0; }
+.bank-head { display: flex; justify-content: center; padding: 18px 0 0; }
+.legend-btn { display: inline-flex; align-items: center; color: var(--blue); font-size: 15px; padding: 6px 10px; border-radius: 10px; }
+.legend-btn:active { background: var(--fill2); }
+.bank { padding-top: 12px; }
+
+.info-card { background: var(--card); border-radius: 14px; padding: 16px 18px; margin-top: 14px; }
+.info-kicker { display: flex; align-items: center; gap: 7px; font-size: 13px; color: var(--label2); }
+.info-kicker .dot { width: 8px; height: 8px; border-radius: 4px; }
+.info-name { font-size: 20px; font-weight: 700; letter-spacing: -0.015em; margin: 6px 0 8px; }
+.info-def { margin: 0; font-size: 17px; line-height: 1.45; }
+.info-foot { color: var(--label2); font-size: 14px; margin: 12px 4px 0; }
+.legend { margin-top: 14px; }
+.legend-row { align-items: center; gap: 12px; min-height: 54px; }
+.legend-row + .legend-row::before { left: 16px; }
+.legend-sym { flex: none; min-width: 56px; max-width: 42%; display: inline-flex; justify-content: center; align-items: center; padding: 6px 8px; border-radius: 9px; background: var(--fill2); font-size: 16px; }
+.legend-sym .txt { font-size: 13px; font-weight: 600; text-align: center; line-height: 1.15; }
+.legend-sym.t-fn, .legend-sym.t-big { color: var(--indigo); }
+.legend-desc { flex: 1; font-size: 15px; line-height: 1.35; }
+
+/* ---------- Feedback: qué sobra / qué falta ---------- */
+.answer-diff:empty { display: none; }
+.answer-diff { background: var(--card); border-radius: 14px; padding: 8px 12px; margin-bottom: 10px; }
+.diff-row { display: flex; align-items: center; gap: 10px; padding: 4px 0; }
+.diff-l { font-size: 12px; font-weight: 700; letter-spacing: .05em; text-transform: uppercase; color: var(--label2); width: 44px; flex: none; }
+.diff-chips { display: flex; flex-wrap: wrap; gap: 5px; }
+.diff-note { font-size: 14px; color: var(--label2); }
+.mini { display: inline-flex; align-items: center; min-height: 30px; padding: 3px 9px; border-radius: 8px; background: var(--fill); font-size: 15px; }
+.mini .txt { font-size: 13px; font-weight: 600; }
+.mini .sym { font-size: 17px; }
+.mini.t-pow { color: var(--purple); }
+.mini .pw i { width: 9px; height: 11px; margin-top: 6px; }
+.solution-top { display: flex; justify-content: space-between; align-items: center; }
+.link-btn.small { font-size: 14px; }
 </style>
 </head>
 <body class="on-home">
@@ -520,7 +575,7 @@ body { -webkit-touch-callout: none; touch-action: manipulation; }
         </div>
       </div>
       <div class="round">
-        <div class="round-bar"><div class="round-fill" id="round-fill"></div></div>
+        <div class="quiz-bar" id="quiz-bar" aria-hidden="true"></div>
         <div class="round-label" id="round-label">0/10</div>
       </div>
     </div>
@@ -533,7 +588,7 @@ body { -webkit-touch-callout: none; touch-action: manipulation; }
           <div class="topic"><span class="dot" id="topic-dot"></span><span class="t" id="topic-label"></span></div>
           <div id="mastery"></div>
         </div>
-        <h1 class="fname" id="fname"></h1>
+        <h1 class="fname" id="fname"><span id="fname-text"></span><button class="info-btn" id="btn-def" aria-label="Qué calcula esta fórmula">i</button></h1>
         <p class="instruction">Monta la fórmula con las piezas</p>
       </section>
 
@@ -548,6 +603,7 @@ body { -webkit-touch-callout: none; touch-action: manipulation; }
         </div>
       </section>
 
+      <div class="bank-head"><button class="legend-btn" id="btn-legend"><span class="info-btn small" aria-hidden="true">i</span>Qué significa cada pieza</button></div>
       <section class="bank" id="bank" aria-label="Piezas disponibles"></section>
     </div>
   </main>
@@ -558,9 +614,9 @@ body { -webkit-touch-callout: none; touch-action: manipulation; }
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18h6M10 21h4"/><path d="M12 3a6 6 0 0 0-3.6 10.8c.6.5 1 1.2 1.1 2V16h5v-.2c.1-.8.5-1.5 1.1-2A6 6 0 0 0 12 3z"/></svg>
         <span class="lbl">Pista</span>
       </button>
-      <button class="btn btn-secondary" id="btn-skip" aria-label="No lo sé">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 5l7 7-7 7M13 5l7 7-7 7"/></svg>
-        <span class="lbl">No lo sé</span>
+      <button class="btn btn-secondary" id="btn-skip" aria-label="Pasar y dejarla para el final">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 17V11a5 5 0 0 1 5-5h10M15 2l4 4-4 4"/></svg>
+        <span class="lbl">Pasar</span>
       </button>
       <button class="btn btn-primary" id="btn-check" disabled>Comprobar</button>
     </div>
@@ -575,8 +631,9 @@ body { -webkit-touch-callout: none; touch-action: manipulation; }
           <div class="sheet-sub" id="sheet-sub"></div>
         </div>
       </div>
+      <div class="answer-diff" id="answer-diff"></div>
       <div class="solution">
-        <div class="solution-label" id="solution-label">Solución</div>
+        <div class="solution-top"><span class="solution-label" id="solution-label">Solución</span><button class="link-btn small" id="btn-sol-legend">Ver símbolos</button></div>
         <div class="solution-math" id="solution-math"></div>
       </div>
       <p class="note" id="note"></p>
@@ -606,6 +663,14 @@ body { -webkit-touch-callout: none; touch-action: manipulation; }
   <div class="dialog">
     <div class="dialog-head">Ajustes<button class="done" id="settings-done">Listo</button></div>
     <div class="dialog-body">
+      <div class="group-label">Preguntas por quiz</div>
+      <div class="segmented" id="qlen">
+        <button data-v="5">5</button>
+        <button data-v="10">10</button>
+        <button data-v="20">20</button>
+      </div>
+      <div class="group-footer">Dentro de un quiz no se repite ninguna fórmula. Con «Pasar» la dejas para el final.</div>
+
       <div class="group-label">Piezas trampa</div>
       <div class="segmented" id="diff">
         <button data-v="easy">Pocas</button>
@@ -642,6 +707,13 @@ body { -webkit-touch-callout: none; touch-action: manipulation; }
   </div>
 </div>
 
+ <div class="overlay" id="info-sheet" role="dialog" aria-modal="true" aria-label="Información">
+  <div class="dialog">
+    <div class="dialog-head"><span id="info-title">Información</span><button class="done" id="info-done">Listo</button></div>
+    <div class="dialog-body" id="info-body"></div>
+  </div>
+</div>
+
 <div class="overlay" id="round-modal" role="dialog" aria-modal="true" aria-label="Resultado">
   <div class="dialog round-dialog">
     <div class="ring">
@@ -651,7 +723,7 @@ body { -webkit-touch-callout: none; touch-action: manipulation; }
     <h2 id="round-title">¡Ronda completada!</h2>
     <p id="round-text"></p>
     <p id="round-sub"></p>
-    <button class="btn btn-primary" id="round-continue">Seguir practicando</button>
+    <button class="btn btn-primary" id="round-continue">Siguiente quiz</button>
     <button class="btn btn-plain" id="round-home">Volver al inicio</button>
   </div>
 </div>
@@ -1110,6 +1182,996 @@ Security characteristic line (SCL) | R_i - R_f | \alpha_i + \beta_i ( R_m - R_f 
 Market model | R_i | \alpha_i + \beta_i R_m + e_i | R_f \sigma_m |
 `;
 </script>
+<script>// Definición de cada fórmula (qué calcula), por tema. Mismo nombre que en data.js.
+var FORMULA_DEFS_SOURCE = String.raw`
+@QM
+Determinants of interest rates | Descompone el tipo de interés exigido a un activo en el tipo real libre de riesgo más las primas que compensan cada riesgo que asume el inversor.
+Nominal risk-free rate (exact relationship) | Relación exacta (Fisher) entre el tipo libre de riesgo nominal, el real y la inflación: los factores (1 + tipo) se multiplican.
+Maturity premium | Prima que exige el inversor por prestar a más plazo: diferencia entre el tipo de un bono largo y el de uno corto del mismo emisor.
+Holding Period Return (HPR) | Rentabilidad total obtenida por mantener un activo durante un periodo: ganancia de precio más ingresos recibidos, en relación con el precio inicial.
+HPR over more than one period | Rentabilidad acumulada de varios periodos seguidos: se encadenan (capitalizan) las rentabilidades de cada periodo.
+Arithmetic mean return | Media simple de las rentabilidades de varios periodos. Es la mejor estimación de la rentabilidad de UN periodo futuro.
+Weighted mean | Media en la que cada observación cuenta según su peso; por ejemplo, la rentabilidad de una cartera con los pesos de cada activo.
+Geometric mean return | Rentabilidad media compuesta por periodo: la tasa constante que, repetida T periodos, da la misma riqueza final.
+Geometric mean (approximation) | Aproximación de la media geométrica a partir de la media aritmética y la dispersión de las rentabilidades.
+Harmonic mean | Media adecuada para promediar ratios o precios con importes fijos (por ejemplo, cost averaging): es la menor de las tres medias.
+Relationship between the means | Relación entre las tres medias: la geométrica al cuadrado se puede obtener a partir de la aritmética y la armónica.
+Money-Weighted Return (MWR) | Tasa interna de rentabilidad de una cartera: el tipo que iguala a cero el valor actual de todas las entradas y salidas de dinero.
+Annualized Time-Weighted Return (TWR) | Rentabilidad anual que elimina el efecto de aportaciones y retiradas: se encadenan las rentabilidades de los subperiodos y se anualiza.
+Non-annual compounding | Valor actual de un flujo futuro cuando los intereses se capitalizan varias veces al año (m veces).
+Annualizing returns | Convierte la rentabilidad de un periodo corto (mes, trimestre) en una rentabilidad anual compuesta.
+Annualizing weekly returns | Convierte una rentabilidad semanal en anual, capitalizándola tantas veces como semanas tiene el año.
+Annualizing daily returns | Convierte una rentabilidad diaria en anual, capitalizándola por el número de días de cotización del año.
+Continuously compounded return | Rentabilidad con capitalización continua entre dos fechas, a partir de los precios final e inicial.
+Price with continuous compounding | Precio final de un activo a partir del precio inicial y la rentabilidad continua del periodo.
+HPR from a continuously compounded rate | Convierte un tipo con capitalización continua en la rentabilidad simple del periodo (HPR).
+EAR from a continuously compounded rate | Tipo efectivo anual equivalente a un tipo anual con capitalización continua.
+Real returns | Descompone el (1 + rentabilidad real) de un activo en el tipo real libre de riesgo y su prima de riesgo.
+After-tax nominal return | Rentabilidad nominal que le queda al inversor después de pagar impuestos sobre ella.
+After-tax real return | Rentabilidad real después de impuestos: primero se quitan los impuestos y después se ajusta por la inflación.
+Leveraged return | Rentabilidad sobre el capital propio de una cartera financiada en parte con deuda: el apalancamiento amplifica la diferencia entre la rentabilidad y el coste de la deuda.
+Future value of a single cash flow | Valor que tendrá en el futuro una cantidad invertida hoy a un tipo de interés compuesto.
+Present value of a single cash flow | Valor de hoy de una cantidad que se recibirá en el futuro, descontada al tipo de interés.
+Future value with continuous compounding | Valor futuro de una cantidad invertida hoy cuando el interés se capitaliza de forma continua.
+Effective Annual Rate (EAR) | Tipo de interés anual que realmente se obtiene cuando los intereses se capitalizan varias veces al año.
+Annuity due | Valor actual de una renta cuyos pagos se hacen al INICIO de cada periodo, a partir de la renta ordinaria equivalente.
+Perpetuity | Valor actual de una serie de pagos iguales que dura para siempre.
+Implied return (bond / zero) | Rentabilidad compuesta anual implícita entre un valor actual y un valor futuro conocidos.
+Annuity payment (fully amortizing loan) | Cuota periódica constante que amortiza por completo un préstamo (intereses más devolución del principal).
+Forward rate (implied) | Tipo a 1 año que empezará dentro de 1 año, implícito en los spot rates a 1 y a 2 años.
+Sample mean | Media aritmética de las observaciones de una muestra.
+Position of the median | Posición que ocupa la mediana en una serie ordenada de n observaciones.
+Percentile location | Posición del percentil y en una serie ordenada de n observaciones.
+Upper fence (box and whisker) | Límite superior por encima del cual una observación se considera atípica (outlier) en un diagrama de caja.
+Lower fence (box and whisker) | Límite inferior por debajo del cual una observación se considera atípica (outlier) en un diagrama de caja.
+Mean absolute deviation (MAD) | Dispersión medida como la distancia media (en valor absoluto) de cada observación a la media.
+Sample variance | Dispersión de una muestra: media de las desviaciones al cuadrado respecto a la media, con corrección de grados de libertad.
+Sample target semideviation | Riesgo a la baja: dispersión de las observaciones que quedan por debajo de un objetivo B.
+Coefficient of variation | Riesgo relativo: dispersión por unidad de rentabilidad media. Permite comparar activos con medias distintas.
+Sample skewness | Asimetría de la distribución: indica si la cola larga está a la derecha (positiva) o a la izquierda (negativa).
+Sample excess kurtosis | Grosor de las colas comparado con una normal: si es positiva, los valores extremos son más frecuentes.
+Sample covariance | Cómo se mueven juntas dos variables: positiva si suelen moverse en la misma dirección.
+Sample correlation coefficient | Covarianza estandarizada entre −1 y +1: mide la fuerza de la relación lineal entre dos variables.
+Odds for an event ("a to b") | Probabilidad de un suceso a partir de sus odds a favor «a to b».
+Odds against an event ("a to b") | Probabilidad de un suceso a partir de sus odds en contra «a to b».
+Conditional probability | Probabilidad de que ocurra A sabiendo que ya ha ocurrido B.
+Multiplication rule | Probabilidad de que ocurran A y B a la vez, a partir de una probabilidad condicionada.
+Addition rule | Probabilidad de que ocurra A, B o ambos, sin contar dos veces la parte común.
+Total probability rule | Probabilidad de A combinando sus probabilidades condicionadas en escenarios que se excluyen mutuamente.
+Expected value of a discrete random variable | Media de una variable aleatoria: cada resultado posible ponderado por su probabilidad.
+Variance of a random variable | Dispersión de una variable aleatoria alrededor de su valor esperado, ponderada por las probabilidades.
+Bayes' formula | Actualiza la probabilidad de un suceso (prior) cuando llega nueva información, dando la probabilidad posterior.
+Expected return on a portfolio | Rentabilidad esperada de una cartera como media ponderada de las rentabilidades esperadas de sus activos.
+Correlation | Coeficiente de correlación entre dos activos a partir de su covarianza y sus desviaciones típicas.
+Covariance from correlation | Covarianza entre dos activos a partir de su correlación y sus desviaciones típicas.
+Two-asset portfolio variance | Riesgo (varianza) de una cartera de dos activos: depende de los pesos, las varianzas y la correlación entre ellos.
+Safety-first ratio (Roy) | Exceso de rentabilidad esperada sobre un mínimo aceptable por unidad de riesgo. La mejor cartera es la que tiene el ratio más alto.
+Lognormal distribution: mean | Media de una variable lognormal a partir de la media y la varianza de su logaritmo (que es normal).
+Lognormal distribution: variance | Varianza de una variable lognormal a partir de la media y la varianza de su logaritmo.
+Std. dev. of multi-period continuous returns | Desviación típica de la rentabilidad continua acumulada en T periodos independientes.
+Sampling error of the mean | Diferencia entre la media de la muestra y la media real de la población.
+Standard error of the sample mean | Desviación típica de la media muestral: cuánto varía la media de una muestra a otra.
+Confidence interval (σ known) | Intervalo que contiene la media poblacional con un nivel de confianza dado, cuando se conoce la desviación típica de la población.
+Confidence interval (σ unknown) | Intervalo de confianza para la media cuando no se conoce la desviación típica de la población y se usa la de la muestra.
+Bootstrap resampling | Error estándar estimado repitiendo muchas veces el cálculo sobre remuestras extraídas de la propia muestra.
+Binomial distribution | Probabilidad de obtener exactamente x éxitos en n ensayos independientes con probabilidad de éxito p.
+Variance of a binomial random variable | Dispersión del número de éxitos en n ensayos con probabilidad p.
+Continuous uniform distribution | Probabilidad de que una variable uniforme entre a y b caiga en un intervalo concreto.
+z-score | Número de desviaciones típicas a las que está una observación de la media.
+Power of the test | Probabilidad de rechazar correctamente una hipótesis nula falsa.
+Test statistic | Estadístico de contraste general: distancia entre lo observado y lo que dice la hipótesis nula, medida en errores estándar.
+Test of a single mean (t) | Contrasta si la media de la población es igual a un valor cuando no se conoce su desviación típica.
+Test of a single mean (z, σ known) | Contrasta la media de la población cuando se conoce su desviación típica.
+Test of the difference in means | Contrasta si dos poblaciones independientes tienen la misma media, suponiendo varianzas iguales.
+Pooled variance | Estimación conjunta de la varianza a partir de dos muestras independientes.
+Test of the mean of differences (paired) | Contrasta la media de las diferencias cuando las dos muestras están emparejadas (son dependientes).
+Test of a single variance (chi-square) | Contrasta si la varianza de una población es igual a un valor concreto.
+Test of the difference in variances (F) | Contrasta si dos poblaciones tienen la misma varianza.
+Parametric test of a correlation | Contrasta si la correlación de la población es distinta de cero.
+Spearman rank correlation | Correlación calculada sobre los rangos de las observaciones (no paramétrica).
+Test of independence (chi-square) | Contrasta si dos variables categóricas son independientes en una tabla de contingencia.
+Expected frequency (contingency table) | Frecuencia que tendría una celda si las dos variables fueran independientes.
+Standardized residual | Diferencia entre la frecuencia observada y la esperada de una celda, estandarizada.
+Fitted regression line | Valor de Y que predice la recta de regresión para un valor de X.
+Slope coefficient (OLS) | Pendiente estimada por mínimos cuadrados: cuánto cambia Y cuando X aumenta en una unidad.
+Intercept (OLS) | Término independiente estimado: el valor de Y cuando X vale cero.
+Total sum of squares | Descompone la variación total de Y en la parte explicada por la regresión y la no explicada.
+Coefficient of determination | Proporción de la variación de Y que explica la regresión (R²).
+Mean square regression (MSR) | Variación explicada por la regresión dividida entre sus grados de libertad.
+Mean square error (MSE) | Variación no explicada dividida entre sus grados de libertad.
+F-statistic (ANOVA) | Contrasta si la regresión en su conjunto explica Y.
+Standard error of estimate (SEE) | Desviación típica de los residuos: cuánto se desvían de media las observaciones de la recta.
+Test of the slope coefficient | Contrasta si la pendiente de la población es igual a un valor (normalmente cero).
+Variance of the forecast error | Varianza del error de una predicción hecha con la regresión para un valor concreto de X.
+Prediction interval | Intervalo de confianza para el valor predicho de Y.
+@ECO
+Own-price elasticity of demand | Sensibilidad de la cantidad demandada de un bien a los cambios en su propio precio.
+Income elasticity of demand | Sensibilidad de la cantidad demandada de un bien a los cambios en la renta del consumidor.
+Cross-price elasticity of demand | Sensibilidad de la cantidad demandada de un bien al precio de otro bien (sustitutivo o complementario).
+Accounting profit | Beneficio contable: ingresos menos los costes que se pagan de forma explícita.
+Economic profit | Beneficio económico: el contable menos el coste de oportunidad de los recursos propios.
+Normal profit | Beneficio mínimo para que la empresa siga en el mercado: el que iguala el beneficio económico a cero.
+Marginal revenue and price elasticity | Ingreso marginal de una empresa a partir del precio y la elasticidad de la demanda.
+Herfindahl-Hirschman Index (HHI) | Medida de concentración de un mercado basada en las cuotas de mercado de las empresas.
+Concentration ratio | Concentración de un mercado como la suma de las cuotas de las mayores empresas.
+GDP deflator | Índice de precios de todo lo que produce la economía: relación entre el PIB nominal y el real.
+GDP (expenditure approach) | PIB desde el lado del gasto: consumo, inversión, gasto público y exportaciones netas.
+Equality of expenditure and income | Identidad macro: el ahorro privado financia la inversión, el déficit público y el saldo exterior.
+Quantity theory of money | Teoría cuantitativa: la masa monetaria por su velocidad de circulación iguala el PIB nominal.
+Growth accounting equation | Descompone el crecimiento del PIB potencial en tecnología y en la contribución ponderada del trabajo y del capital.
+Labor productivity | Producción real por hora trabajada.
+Potential GDP | PIB potencial a partir de las horas trabajadas y la productividad del trabajo.
+Unit labor cost | Coste laboral por unidad producida.
+Budget surplus/(deficit) | Saldo presupuestario del Estado: gasto e ingresos públicos y transferencias.
+Disposable income | Renta disponible de los hogares después de impuestos.
+Fiscal multiplier | Cuánto aumenta el PIB por cada unidad de gasto público adicional, teniendo en cuenta impuestos y consumo.
+Neutral rate | Tipo de interés oficial que ni estimula ni frena la economía.
+Money multiplier | Cuánto dinero crea el sistema bancario por cada unidad de reservas.
+Fisher effect | El tipo nominal incorpora el tipo real más la inflación esperada.
+Real exchange rate | Tipo de cambio ajustado por los niveles de precios de los dos países: mide el poder de compra relativo.
+Marshall-Lerner condition | Condición para que una depreciación de la moneda mejore la balanza comercial.
+Cross-rate | Tipo de cambio entre dos monedas obtenido a través de una tercera.
+Forward exchange rate | Tipo de cambio a plazo según la paridad cubierta de tipos de interés.
+Expected % change in the base currency | Apreciación o depreciación esperada de la base currency a partir del spot esperado y el actual.
+@CI
+Cash conversion cycle (CCC) | Días que pasan desde que la empresa paga a sus proveedores hasta que cobra de sus clientes.
+EAR of supplier financing (trade credit) | Coste anual efectivo de renunciar al descuento por pronto pago de un proveedor.
+Total working capital | Capital circulante: activos corrientes menos pasivos corrientes.
+Free cash flow | Caja que generan las operaciones después de las inversiones en activos a largo plazo.
+Net Present Value (NPV) | Valor que crea un proyecto: valor actual de sus flujos menos la inversión inicial.
+Internal Rate of Return (IRR) | Tipo de descuento al que el valor actual de los flujos de un proyecto iguala su inversión inicial (NPV = 0).
+Return on Invested Capital (ROIC) | Rentabilidad que obtiene la empresa sobre todo el capital invertido (deuda y equity).
+Project NPV with a real option | NPV de un proyecto teniendo en cuenta el valor y el coste de una opción real (ampliar, abandonar, esperar…).
+Weighted Average Cost of Capital (WACC) | Coste medio de las fuentes de financiación de la empresa, ponderado por su peso en la estructura de capital.
+Debt weight from D/E | Peso de la deuda en la estructura de capital a partir del ratio deuda / equity.
+Operating leverage | Proporción de costes fijos sobre los totales: cuanto más alta, más varía el beneficio con las ventas.
+Interest coverage | Cuántas veces cubre el beneficio operativo el gasto por intereses.
+MM Proposition I (with taxes) | Con impuestos, la deuda aumenta el valor de la empresa por el escudo fiscal de los intereses.
+MM Proposition II (no taxes) | Sin impuestos, el coste del equity sube con el apalancamiento porque los accionistas asumen más riesgo.
+MM Proposition II (with taxes) | Con impuestos, el coste del equity sube con la deuda, pero menos que sin impuestos.
+Static trade-off theory | El valor de la empresa endeudada suma el escudo fiscal y resta el coste esperado de las dificultades financieras.
+@FSA
+Gross profit | Beneficio bruto: ventas menos el coste de lo vendido.
+Operating income | Beneficio operativo: beneficio bruto menos los gastos de explotación.
+Ending shareholders' equity | Patrimonio neto final a partir del inicial y de todo lo que lo hace variar durante el año.
+Ending retained earnings | Reservas (beneficios retenidos) al final del periodo.
+Basic EPS | Beneficio por acción ordinaria antes de dilución.
+Diluted EPS (convertible preferred) | BPA diluido suponiendo que las acciones preferentes convertibles se convierten en ordinarias.
+Diluted EPS (convertible debt) | BPA diluido suponiendo que la deuda convertible se convierte en acciones ordinarias.
+Diluted EPS (options) | BPA diluido suponiendo que se ejercen las opciones in the money (treasury stock method).
+Treasury stock method: shares repurchased | Acciones que la empresa podría recomprar con el dinero recibido al ejercerse las opciones.
+Long-term debt-to-equity | Deuda a largo plazo en relación con el patrimonio neto: apalancamiento.
+Ending cash | Caja final a partir de la inicial y de los tres flujos de caja del periodo.
+Ending accounts receivable | Saldo final de clientes a partir del inicial, las ventas y los cobros.
+Ending inventory | Inventario final a partir del inicial, las compras y el coste de lo vendido.
+Ending accounts payable | Saldo final de proveedores a partir del inicial, las compras y los pagos.
+Free Cash Flow to the Firm (from net income) | Caja disponible para todos los financiadores (deuda y equity), partiendo del beneficio neto.
+Free Cash Flow to the Firm (from CFO) | Caja disponible para todos los financiadores (deuda y equity), partiendo del flujo de caja operativo.
+Free Cash Flow to Equity (FCFE) | Caja disponible para los accionistas después de inversiones y de los flujos con los acreedores.
+Cash return on assets | Caja operativa que genera la empresa por cada unidad de activos.
+Cash flow interest coverage | Cuántas veces cubre la caja operativa (antes de intereses e impuestos) los intereses pagados.
+Debt coverage | Capacidad de la caja operativa para devolver la deuda total.
+Reinvestment ratio | Capacidad de la caja operativa para financiar la compra de activos a largo plazo.
+LIFO to FIFO: ending inventory | Convierte el inventario final de LIFO a FIFO para comparar empresas.
+LIFO to FIFO: COGS | Convierte el coste de las ventas de LIFO a FIFO.
+LIFO to FIFO: net income | Convierte el beneficio neto de LIFO a FIFO, teniendo en cuenta los impuestos.
+Inventory equation (COGS) | Coste de las ventas a partir de la ecuación del inventario.
+Net book value | Valor contable de un activo fijo: coste menos amortización acumulada.
+Gain on sale of an asset | Plusvalía o minusvalía al vender un activo fijo.
+Estimated total useful life | Vida útil total estimada de los activos fijos.
+Estimated age (average age) | Edad media estimada de los activos fijos: cuántos años se llevan amortizando.
+Estimated remaining life | Vida útil que les queda a los activos fijos.
+Straight-line depreciation | Amortización lineal: el mismo gasto todos los años.
+Double-declining balance (DDB) | Amortización acelerada: un porcentaje doble del lineal sobre el valor neto pendiente.
+Units-of-production depreciation | Amortización según el uso real del activo (unidades producidas).
+Interest expense on a lease | Gasto financiero del arrendamiento en el periodo.
+Ending lease liability (finance lease) | Pasivo por arrendamiento al final del periodo.
+Lease amortization (straight-line) | Amortización lineal del activo por derecho de uso (ROU).
+Stock options compensation expense | Gasto anual por las opciones sobre acciones concedidas a empleados.
+Deferred tax liability (assets) | Pasivo por impuesto diferido que surge cuando el valor contable de un activo supera su base fiscal.
+Income tax expense | Gasto por impuesto de la cuenta de resultados: impuesto a pagar ajustado por los impuestos diferidos.
+Effective tax rate | Tipo impositivo efectivo según la contabilidad.
+Cash tax rate | Tipo impositivo realmente pagado en caja.
+Inventory turnover | Cuántas veces se vende y repone el inventario en el año.
+Days of inventory on hand (DOH) | Días que tarda de media en venderse el inventario.
+Receivables turnover | Cuántas veces se cobran los clientes en el año.
+Days sales outstanding (DSO) | Días que tarda de media la empresa en cobrar a sus clientes.
+Payables turnover | Cuántas veces paga la empresa a sus proveedores en el año.
+Number of days of payables | Días que tarda de media la empresa en pagar a sus proveedores.
+Purchases | Compras del periodo a partir de la ecuación del inventario.
+Working capital turnover | Ventas generadas por cada unidad de capital circulante.
+Fixed asset turnover | Ventas generadas por cada unidad de activo fijo neto.
+Total asset turnover | Ventas generadas por cada unidad de activos totales.
+Current ratio | Liquidez: activos corrientes en relación con los pasivos corrientes.
+Cash ratio | Liquidez más estricta: solo caja e inversiones a corto plazo frente a los pasivos corrientes.
+Quick ratio | Liquidez sin contar el inventario (prueba ácida).
+Defensive interval ratio | Días que podría pagar la empresa sus gastos usando solo sus activos líquidos.
+Debt-to-assets ratio | Proporción de los activos financiada con deuda.
+Debt-to-capital ratio | Proporción de la financiación total (deuda más equity) que es deuda.
+Debt-to-equity ratio | Deuda total en relación con el patrimonio neto.
+Financial leverage ratio | Multiplicador del equity: activos por cada unidad de patrimonio neto.
+Interest coverage (EBIT) | Cuántas veces cubre el EBIT los pagos de intereses.
+Fixed charge coverage | Cuántas veces cubre el beneficio los cargos fijos (intereses y arrendamientos).
+Gross profit margin | Beneficio bruto por cada unidad de ventas.
+Operating profit margin | Beneficio operativo por cada unidad de ventas.
+Pretax margin | Beneficio antes de impuestos por cada unidad de ventas.
+Net profit margin | Beneficio neto por cada unidad de ventas.
+Return on assets (ROA) | Beneficio neto que genera la empresa por cada unidad de activos.
+Adjusted ROA | ROA que suma los intereses después de impuestos para medir el rendimiento de los activos con independencia de cómo se financian.
+Return on total capital | Rentabilidad antes de intereses e impuestos sobre todo el capital (deuda y equity).
+Return on equity (ROE) | Beneficio neto por cada unidad de patrimonio neto.
+Return on common equity | Rentabilidad para los accionistas ordinarios, después de los dividendos preferentes.
+DuPont decomposition (2-way) | Descompone el ROE en rentabilidad de los activos y apalancamiento.
+DuPont decomposition (3-way) | Descompone el ROE en margen, rotación de activos y apalancamiento.
+DuPont decomposition (5-way) | Descompone el ROE en carga fiscal, carga financiera, margen EBIT, rotación y apalancamiento.
+Tax burden | Proporción del beneficio antes de impuestos que se queda la empresa tras pagar impuestos.
+Interest burden | Proporción del EBIT que queda después de pagar intereses.
+EBIT margin | Beneficio operativo (EBIT) por cada unidad de ventas.
+Price to earnings (P/E) | Cuánto paga el mercado por cada unidad de beneficio por acción.
+Price to book value (P/BV) | Cuánto paga el mercado por cada unidad de valor contable por acción.
+Dividend payout ratio | Proporción del beneficio atribuible a ordinarios que se reparte como dividendo.
+Retention rate | Proporción del beneficio que se retiene (no se reparte).
+Sustainable growth rate | Crecimiento que la empresa puede financiar sin emitir acciones nuevas.
+Net interest margin | Margen de un banco: ingreso neto por intereses sobre los activos que generan intereses.
+@EQ
+Leverage ratio (margin) | Apalancamiento máximo de una compra a margen: valor de la posición por cada unidad de capital propio.
+Return on a margin transaction | Rentabilidad sobre el capital propio de una compra a margen, después de intereses, dividendos y comisiones.
+Margin call price | Precio al que el inversor recibe una llamada de margen en una posición larga.
+Value of a price return index | Valor de un índice ponderado por precios: suma de los precios de sus valores dividida por el divisor.
+Price return of an index | Rentabilidad del índice solo por la variación de precios.
+Total return of an index | Rentabilidad del índice incluyendo la variación de precios y los dividendos.
+Price weighting | Peso de un valor en un índice ponderado por precio.
+Equal weighting | Peso de un valor en un índice equiponderado.
+Market-cap weighting | Peso de un valor en un índice ponderado por capitalización bursátil.
+Return characteristics of equity securities | Rentabilidad total de una acción en un periodo: variación de precio más dividendo.
+ROE using average book value | ROE calculado sobre el patrimonio neto medio del año.
+Market share | Cuota de mercado de una empresa.
+Operating income | Beneficio operativo a partir del margen de contribución de las unidades vendidas y de los costes fijos.
+Degree of Operating Leverage (DOL) | Variación porcentual del beneficio operativo por cada 1 % de variación de las ventas.
+Degree of Financial Leverage (DFL) | Variación porcentual del beneficio neto por cada 1 % de variación del beneficio operativo.
+Degree of Total Leverage (DTL) | Variación porcentual del beneficio neto por cada 1 % de variación de las ventas.
+Breakeven quantity | Unidades que hay que vender para cubrir todos los costes fijos (operativos y financieros).
+Operating breakeven quantity | Unidades que hay que vender para cubrir los costes operativos fijos.
+Net income at various levels of sales | Beneficio neto según las unidades vendidas, después de costes e impuestos.
+Dividend discount model (one-year holding) | Valor de una acción que se mantiene un año: dividendo y precio de venta descontados.
+Dividend discount model (n years) | Valor de una acción que se mantiene n años: dividendos y precio final descontados.
+Gordon growth model | Valor de una acción cuyos dividendos crecen a una tasa constante para siempre.
+Gordon growth model (from D₀) | Valor con crecimiento constante partiendo del último dividendo pagado.
+Sustainable growth rate | Crecimiento que la empresa puede sostener reinvirtiendo parte de su beneficio.
+Implied required return | Rentabilidad exigida implícita en el precio actual según el modelo de Gordon.
+Implied growth | Crecimiento implícito en el precio actual según el modelo de Gordon.
+Two-stage DDM: terminal value | Valor de la acción al final de la fase de crecimiento alto, cuando empieza el crecimiento estable.
+Two-stage DDM: terminal value from D₀ | Valor terminal del modelo en dos fases calculado desde el dividendo actual.
+Value of preferred stock (perpetual) | Valor de una acción preferente perpetua que paga un dividendo fijo.
+FCFE valuation model | Valor del equity como valor actual de los flujos de caja libres para el accionista.
+Justified forward P/E | PER justificado por los fundamentales, sobre el beneficio esperado.
+Justified trailing P/E | PER justificado por los fundamentales, sobre el beneficio del último año.
+Enterprise value | Valor de toda la empresa: lo que costaría comprarla entera, descontando su caja.
+@FI
+FRN coupon rate | Cupón de un bono a tipo variable: tipo de referencia más un diferencial fijo.
+Inverse floater coupon rate | Cupón de un inverse floater: baja cuando sube el tipo de referencia.
+Value of a callable bond | Valor de un bono que el emisor puede amortizar anticipadamente.
+Value of a putable bond | Valor de un bono que el inversor puede revender al emisor.
+Inflation-adjusted principal | Principal de un bono ligado a la inflación después del ajuste.
+Conversion ratio | Número de acciones que se reciben por cada bono convertible.
+Conversion value | Valor del bono convertible si se convierte hoy en acciones.
+Market conversion price | Precio efectivo por acción que se paga al comprar el convertible.
+Market conversion premium per share | Cuánto más se paga por acción a través del convertible que comprando la acción directamente.
+Premium payback period | Años que tarda en recuperarse la prima pagada por el convertible gracias a su mayor rendimiento.
+Repurchase price (repo) | Precio al que se recompra el bono al vencer el repo.
+Repo haircut | Descuento que se aplica al valor de la garantía en un repo.
+Repo initial margin | Valor de la garantía en relación con el dinero prestado en un repo.
+Bond price (market discount rate) | Precio de un bono: valor actual de sus cupones y del principal descontados al yield.
+Full price | Precio que realmente paga el comprador: precio cotizado más cupón corrido.
+Accrued interest | Parte del cupón que corresponde al vendedor por los días que ha tenido el bono.
+Full price from the previous coupon date | Full price entre fechas de cupón a partir del precio en la última fecha de cupón.
+Matrix pricing: interpolated yield | Yield estimado para un vencimiento intermedio interpolando entre dos bonos comparables.
+Periodicity conversion | Convierte un tipo anual de una periodicidad de capitalización a otra.
+Current yield | Rendimiento anual por cupón sobre el precio del bono.
+Simple yield | Rendimiento que suma al cupón la ganancia o pérdida de precio repartida linealmente hasta el vencimiento.
+Government equivalent yield | Convierte un yield calculado con base 30/360 a la base actual/actual.
+Option-adjusted price | Precio del bono callable como si no tuviera la opción.
+G-spread | Diferencial sobre la curva de bonos del Estado al mismo vencimiento.
+I-spread | Diferencial sobre el tipo swap al mismo vencimiento.
+Option-adjusted spread (OAS) | Diferencial del bono una vez eliminado el efecto de su opción incorporada.
+Money market: price (discount rate basis) | Precio de un instrumento del mercado monetario cotizado con tipo de descuento.
+Money market: discount rate | Tipo de descuento de un instrumento del mercado monetario.
+Money market: price (add-on rate basis) | Precio de un instrumento del mercado monetario cotizado con tipo add-on.
+Money market: add-on rate | Tipo add-on de un instrumento del mercado monetario.
+Bond equivalent yield | Rendimiento del mercado monetario en base 365 días.
+Implied forward rate | Tipo forward implícito entre dos spot rates de distintos vencimientos.
+Bond price using spot rates | Precio de un bono descontando cada flujo a su propio spot rate.
+Duration gap | Diferencia entre la duración del bono y el horizonte de inversión: indica qué riesgo domina.
+Modified duration | Sensibilidad porcentual del precio a un cambio en el yield.
+Price change with modified duration | Variación porcentual aproximada del precio ante un cambio del yield usando solo la duración.
+Approximate modified duration | Duración modificada estimada a partir de los precios cuando el yield sube y baja.
+Approximate Macaulay duration | Duración de Macaulay estimada a partir de la modificada aproximada.
+Money duration | Variación del precio en unidades monetarias por cada cambio del yield.
+Price value of a basis point (PVBP) | Variación del precio por cada punto básico de cambio del yield.
+Basis point value (BPV) | Variación del valor (en dinero) por un punto básico, a partir de la money duration.
+Approximate convexity | Convexidad estimada a partir de los precios cuando el yield sube y baja.
+Price change with duration and convexity | Variación porcentual del precio teniendo en cuenta la duración y la convexidad.
+Portfolio duration | Duración de una cartera de bonos como media ponderada de las duraciones.
+Effective duration | Sensibilidad del precio a un desplazamiento de la curva de referencia (bonos con opciones).
+Effective convexity | Convexidad ante desplazamientos de la curva de referencia (bonos con opciones).
+Expected loss | Pérdida esperada por riesgo de crédito.
+Loss given default | Pérdida si el emisor impaga: exposición menos lo que se recupera.
+Yield on a corporate bond | Componentes del yield de un bono corporativo: tipo real, inflación esperada y primas de riesgo.
+RCF to net debt | Caja retenida en relación con la deuda neta: capacidad de devolver la deuda.
+FFO to debt | Flujos de las operaciones en relación con la deuda.
+Loan-to-value (LTV) | Importe del préstamo en relación con el valor de la vivienda.
+Debt-to-income (DTI) | Pago mensual de la deuda en relación con la renta mensual bruta.
+Weighted average coupon (WAC) | Cupón medio de un pool de préstamos ponderado por su saldo vivo.
+Single monthly mortality rate (SMM) | Porcentaje del saldo que se amortiza anticipadamente en un mes.
+Debt service coverage ratio (CMBS) | Cuántas veces cubren los ingresos del inmueble el servicio de la deuda.
+@DER
+Long forward payoff | Ganancia o pérdida al vencimiento de una posición larga en un forward.
+Long call payoff | Valor al vencimiento de una call comprada.
+Long put payoff | Valor al vencimiento de una put comprada.
+Long call profit | Beneficio de una call comprada al vencimiento, una vez descontada la prima.
+Long put profit | Beneficio de una put comprada al vencimiento, una vez descontada la prima.
+Short call profit | Beneficio del vendedor de una call al vencimiento.
+CDS mark-to-market change | Variación del valor de mercado de un CDS cuando cambia su spread.
+Fundamental value of an asset | Valor de un activo: valor esperado descontado, menos los costes y más los beneficios de mantenerlo.
+Forward price (no carry, discrete) | Precio forward de un activo sin costes ni ingresos, con capitalización discreta.
+Forward price (no carry, continuous) | Precio forward de un activo sin costes ni ingresos, con capitalización continua.
+Forward price with income and costs | Precio forward cuando el activo genera ingresos y tiene costes durante la vida del contrato.
+Forward price with income and cost rates (continuous) | Precio forward con capitalización continua cuando los ingresos y los costes se expresan como tasas.
+FX forward (discrete) | Tipo de cambio forward por la paridad cubierta de tipos de interés.
+FX forward (continuous) | Tipo de cambio forward con capitalización continua.
+Value of a long forward prior to expiration | Valor de un forward largo antes del vencimiento.
+Long FRA payoff | Liquidación de un FRA comprado: gana si el tipo de referencia sube por encima del pactado.
+Short-term interest rate futures price | Precio cotizado de un futuro sobre tipos de interés a corto plazo.
+Fixed-rate payer settlement | Liquidación periódica para quien paga fijo en un swap de tipos.
+Option value | Valor de una opción descompuesto en valor intrínseco y valor temporal.
+Call lower bound | Valor mínimo de una call europea antes del vencimiento.
+Put lower bound | Valor mínimo de una put europea antes del vencimiento.
+Put-call parity | Equivalencia entre una protective put y una fiduciary call.
+Synthetic call | Cómo replicar una call con una put, la acción y un bono.
+Synthetic put | Cómo replicar una put con una call, la acción y un bono.
+Put-call forward parity | Paridad put-call usando un forward en lugar del activo subyacente.
+Value of the firm (option view) | Valor de la empresa visto con opciones: el equity es una call sobre los activos.
+Value of debt (option view) | Valor de la deuda visto con opciones: deuda sin riesgo menos una put.
+Risk-neutral probability | Probabilidad de subida en un mundo neutral al riesgo en el modelo binomial.
+One-period binomial call value | Valor de una call con el modelo binomial de un periodo.
+Hedge ratio | Número de acciones necesarias para cubrir una opción en el modelo binomial.
+@ALT
+GP rate of return (no catch-up) | Rentabilidad que cobra el GP por incentivo cuando no hay cláusula de catch-up.
+GP rate of return (with catch-up) | Rentabilidad que cobra el GP por incentivo cuando hay cláusula de catch-up.
+Multiple on invested capital (MOIC) | Cuántas veces se ha multiplicado el capital invertido (valor realizado y no realizado).
+Investor's return net of fees | Rentabilidad del inversor después de pagar las comisiones al GP.
+GP's return in currency terms | Comisiones totales del GP: gestión más incentivo.
+Leveraged portfolio return | Rentabilidad sobre el capital propio de una cartera de inversiones alternativas financiada en parte con deuda.
+Loan-to-value (real estate) | Deuda hipotecaria en relación con el valor de la cartera inmobiliaria.
+@PM
+Expected return on an asset (components) | Rentabilidad esperada como combinación del tipo real, la inflación esperada y la prima de riesgo.
+Portfolio return (two assets) | Rentabilidad de una cartera de dos activos.
+Population variance (single asset) | Varianza de la rentabilidad de un activo con los datos de toda la población.
+Standard deviation of a two-asset portfolio | Riesgo (desviación típica) de una cartera de dos activos.
+Portfolio of many equally weighted assets | Varianza de una cartera grande equiponderada: con muchos activos solo queda la covarianza media.
+Foreign asset return in domestic currency | Rentabilidad de un activo extranjero medida en tu moneda: rentabilidad local y efecto divisa.
+Foreign asset risk | Riesgo de un activo extranjero en moneda doméstica: riesgo local, riesgo divisa y su correlación.
+Utility function | Utilidad de una inversión para un inversor según su aversión al riesgo.
+Capital allocation line (CAL) | Rentabilidad esperada de las carteras que combinan el activo libre de riesgo con una cartera de riesgo.
+Capital market line (CML) | CAL cuya cartera de riesgo es la cartera de mercado.
+Std. dev. of a portfolio on the CML | Riesgo de una cartera de la CML según cuánto se invierte en el activo libre de riesgo.
+Systematic and nonsystematic risk | Descompone la varianza de un activo en riesgo sistemático (de mercado) y no sistemático.
+Beta (covariance) | Beta de un activo a partir de su covarianza con el mercado.
+Beta (correlation) | Beta de un activo a partir de su correlación con el mercado y de las desviaciones típicas.
+Portfolio beta | Beta de una cartera como media ponderada de las betas.
+Capital Asset Pricing Model (CAPM) | Rentabilidad esperada de un activo según su riesgo sistemático: solo se remunera el riesgo de mercado.
+Arbitrage Pricing Theory (APT) | Rentabilidad esperada explicada por varios factores de riesgo, cada uno con su prima.
+Fama-French three-factor model | Rentabilidad explicada por el mercado, el tamaño (SMB) y el valor (HML).
+Sharpe ratio | Exceso de rentabilidad por unidad de riesgo total.
+Treynor ratio | Exceso de rentabilidad por unidad de riesgo sistemático (beta).
+M-squared (M²) | Rentabilidad que habría tenido la cartera con el mismo riesgo total que el mercado.
+M² alpha | Diferencia entre el M² de la cartera y la rentabilidad del mercado.
+Jensen's alpha | Rentabilidad de la cartera por encima de la que predice el CAPM.
+Information ratio | Alpha por unidad de riesgo activo (tracking error).
+Security characteristic line (SCL) | Recta que relaciona el exceso de rentabilidad de un activo con el exceso de rentabilidad del mercado.
+Market model | Modelo de un factor: la rentabilidad del activo explicada por la del mercado.
+`;
+
+var FORMULA_DEFS = (function () {
+  var out = {}, topic = '';
+  function slug(s) { return s.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, ''); }
+  FORMULA_DEFS_SOURCE.split('\n').forEach(function (line) {
+    line = line.trim();
+    if (!line) return;
+    if (line.charAt(0) === '@') { topic = line.slice(1).trim(); return; }
+    var k = line.indexOf(' | ');
+    if (k < 0) return;
+    out[topic + '-' + slug(line.slice(0, k))] = line.slice(k + 3).trim();
+  });
+  return out;
+})();
+</script>
+<script>// Glosario de símbolos y abreviaturas
+//   @*            significado general
+//   @QM           significado dentro de un tema
+//   @QM:Nombre    significado dentro de una fórmula concreta
+var GLOSSARY_SOURCE = String.raw`
+@*
+\pi | Inflation rate: tasa de inflación
+\pi_e | Expected inflation: inflación esperada
+r_{\text{real}} | Real risk-free rate: tipo libre de riesgo real
+r_{\text{nom}} | Nominal risk-free rate: tipo libre de riesgo nominal
+r_{\text{long}} | Tipo de interés de un bono a largo plazo
+r_{\text{short}} | Tipo de interés de un bono a corto plazo
+P_0 | Precio (o valor) al inicio del periodo
+P_1 | Precio (o valor) al final del periodo
+P_t | Precio en el momento t
+P_T | Precio en el momento T (final)
+I_1 | Income: ingresos recibidos durante el periodo (dividendos, cupones)
+I_0 | Ingresos al inicio del periodo
+R_0 | Rentabilidad del periodo 0
+R_1 | Rentabilidad del periodo 1
+R_2 | Rentabilidad del periodo 2
+R_T | Rentabilidad del último periodo (T)
+R_t | Rentabilidad del periodo t
+R_{it} | Rentabilidad del activo i en el periodo t
+\cdots | Y así sucesivamente con los términos intermedios
+T | Número de periodos
+N | Número total de observaciones (población)
+n | Número de observaciones de la muestra
+w_i | Weight: peso del elemento i
+w_1 | Peso del activo 1 en la cartera
+w_2 | Peso del activo 2 en la cartera
+X_i | Observación i de la variable X
+\bar{X} | Media muestral de X
+\bar{x} | Media muestral
+\bar{Y} | Media muestral de Y
+\bar{R} | Rentabilidad media
+s | Sample standard deviation: desviación típica muestral
+\sigma | Standard deviation: desviación típica (de la población o del activo)
+\mu | Media de la población (o rentabilidad media)
+CF_t | Cash flow: flujo de caja del periodo t
+MWR | Money-weighted return: rentabilidad ponderada por dinero (la IRR de la cartera)
+TWR | Time-weighted return: rentabilidad ponderada en el tiempo
+FV_N | Future value: valor futuro dentro de N años
+FV_t | Future value: valor futuro en el periodo t
+FV | Future value / face value: valor futuro o nominal
+PV | Present value: valor actual (en bonos, el precio)
+R_s | Stated annual rate: tipo anual nominal (cotizado)
+m | Número de periodos de capitalización al año
+r_{\text{period}} | Rentabilidad de un subperiodo (mes, trimestre…)
+r_{\text{periodic}} | Periodic rate: tipo de interés de cada subperiodo
+R_{\text{weekly}} | Rentabilidad semanal
+R_{\text{daily}} | Rentabilidad diaria
+R_{\text{pre-tax}} | Rentabilidad nominal antes de impuestos
+t | Tax rate: tipo impositivo
+r | Interest / discount rate: tipo de interés o de descuento
+r_1 | Spot rate a 1 año
+r_2 | Spot rate a 2 años
+r_3 | Spot rate a 3 años
+g | Growth rate: tasa de crecimiento
+PMT | Payment: pago periódico (cupón, cuota, renta)
+PV_{\text{Ordinary}} | Valor actual de una ordinary annuity (pagos al final de cada periodo)
+FV_{\text{Ordinary}} | Valor futuro de una ordinary annuity
+r_{cc} | Continuously compounded rate: tipo con capitalización continua
+EAR | Effective annual rate: tipo efectivo anual
+HPR | Holding period return: rentabilidad del periodo de tenencia
+R_P | Return on the portfolio: rentabilidad de la cartera
+V_B | Value of borrowed funds: dinero tomado prestado (deuda)
+V_E | Value of equity: capital propio invertido
+V_A | Valor total de los activos
+r_D | Cost of debt: coste de la deuda
+r_E | Rentabilidad exigida al equity
+R_f | Risk-free rate: tipo libre de riesgo
+R_F | Risk-free rate: tipo libre de riesgo
+r_f | Risk-free rate: tipo libre de riesgo
+E(R_i) | Expected return: rentabilidad esperada del activo i
+E(R_P) | Expected return on the portfolio: rentabilidad esperada de la cartera
+E(R_p) | Rentabilidad esperada de la cartera
+E(R_m) | Expected market return: rentabilidad esperada del mercado
+E(R) | Rentabilidad esperada
+R_p | Rentabilidad (realizada) de la cartera
+R_m | Rentabilidad del mercado
+\sigma_i | Desviación típica del activo i
+\sigma_1 | Desviación típica del activo 1
+\sigma_2 | Desviación típica del activo 2
+\sigma_P | Desviación típica de la cartera
+\sigma_p | Desviación típica de la cartera
+\sigma_m | Desviación típica del mercado
+\sigma_P^2 | Varianza de la cartera
+\sigma_e | Desviación típica del error (riesgo no sistemático)
+\rho_{1,2} | Correlación entre los activos 1 y 2
+\text{Cov}_{1,2} | Covarianza entre los activos 1 y 2
+\rho | Correlation: coeficiente de correlación
+\beta | Beta: sensibilidad al mercado
+\beta_i | Beta del activo i: sensibilidad al mercado (riesgo sistemático)
+\beta_p | Beta de la cartera
+\alpha | Nivel de significación (probabilidad de error de Tipo I)
+\lambda | Prima de riesgo exigida al activo
+\theta | Costes de mantener el activo (almacenaje, seguro…)
+\gamma | Beneficios de mantener el activo (convenience yield…)
+IRR | Internal rate of return: tasa interna de rentabilidad
+NPV | Net present value: valor actual neto
+WACC | Weighted average cost of capital: coste medio ponderado del capital
+CFO | Cash flow from operations: flujo de caja de las operaciones
+CFI | Cash flow from investing: flujo de caja de inversión
+CFF | Cash flow from financing: flujo de caja de financiación
+NI | Net income: beneficio neto
+NCC | Non-cash charges: gastos que no suponen salida de caja (amortizaciones…)
+Int | Interest expense: gasto por intereses
+FCInv | Fixed capital investment: inversión en activo fijo (capex neto)
+WCInv | Working capital investment: inversión en capital circulante
+FCFF | Free cash flow to the firm: flujo de caja libre para la empresa
+FCFE | Free cash flow to equity: flujo de caja libre para el accionista
+FCFE_t | FCFE del periodo t
+EBIT | Earnings before interest and taxes: beneficio operativo
+EBITDA | Earnings before interest, taxes, depreciation and amortization
+EBT | Earnings before taxes: beneficio antes de impuestos
+EPS | Earnings per share: beneficio por acción
+ROE | Return on equity: rentabilidad sobre el patrimonio neto
+ROA | Return on assets: rentabilidad sobre los activos
+D_0 | Dividendo más reciente (ya pagado)
+D_1 | Dividendo esperado del próximo año: D₀(1 + g)
+D_t | Dividendo del periodo t
+D_n | Dividendo del año n
+D_{n+1} | Dividendo del año n + 1 (primer año de crecimiento estable)
+D_{t-1} | Dividendo del periodo anterior
+P_n | Precio esperado en el año n
+P_{t-1} | Precio del periodo anterior
+g_c | Constant growth rate: tasa de crecimiento constante
+g_L | Long-term growth: crecimiento a largo plazo (estable)
+g_S | Short-term growth: crecimiento en la fase inicial (alta)
+S_0 | Spot price: precio actual del subyacente
+S_t | Precio del subyacente en el momento t
+S_T | Precio del subyacente al vencimiento (T)
+X | Exercise (strike) price: precio de ejercicio
+c_0 | Prima (precio) de la call hoy
+p_0 | Prima (precio) de la put hoy
+c_t | Precio de la call en el momento t
+p_t | Precio de la put en el momento t
+F_0(T) | Precio forward fijado hoy para vencimiento en T
+MRR | Market reference rate: tipo de referencia (SOFR, €STR…)
+LGD | Loss given default: pérdida en caso de impago
+POD | Probability of default: probabilidad de impago
+EE | Expected exposure: exposición esperada
+RR | Recovery rate: tasa de recuperación
+\sum_{i=1}^{n} | Sumatorio para i de 1 a n
+
+@QM
+B | Target return: rentabilidad objetivo (umbral) de la semidesviación
+s_X | Desviación típica muestral de X
+s_Y | Desviación típica muestral de Y
+s_{XY} | Covarianza muestral entre X e Y
+s_X^2 | Varianza muestral de X
+y | Percentil buscado (por ejemplo, 25 para el primer cuartil)
+Q_1 | Primer cuartil (percentil 25)
+Q_3 | Tercer cuartil (percentil 75)
+IQR | Interquartile range: rango intercuartílico (Q₃ − Q₁)
+Y_i | Observación i de la variable dependiente Y
+a | Primer número de la cuota «a to b»
+b | Segundo número de la cuota «a to b»
+P(AB) | Probabilidad conjunta de A y B
+P(A) | Probabilidad del suceso A
+P(B) | Probabilidad del suceso B
+P(A\mid{B}) | Probabilidad de A condicionada a B
+P(B\mid{A}) | Probabilidad de B condicionada a A
+P(S) | Probabilidad del escenario S
+P(S^c) | Probabilidad del escenario complementario (no S)
+P(A\mid{S}) | Probabilidad de A en el escenario S
+P(A\mid{S^c}) | Probabilidad de A en el escenario complementario
+P(AS) | Probabilidad conjunta de A y S
+P(X_i) | Probabilidad de que X tome el valor Xᵢ
+E(X) | Valor esperado de X
+P(\text{Event}) | Prior: probabilidad del suceso antes de la nueva información
+P(\text{Info}) | Probabilidad (incondicional) de la información
+P(\text{Info}\mid\text{Event}) | Probabilidad de la información si el suceso ocurre
+P(\text{Event}\mid\text{Info}) | Posterior: probabilidad del suceso dada la información
+\text{Cov}(R_A,R_B) | Covarianza entre las rentabilidades de A y B
+\sigma(R_A) | Desviación típica de la rentabilidad de A
+\sigma(R_B) | Desviación típica de la rentabilidad de B
+\sigma^2(R_A) | Varianza de la rentabilidad de A
+\rho(R_1,R_2) | Correlación entre las rentabilidades 1 y 2
+\sigma(R_1) | Desviación típica de la rentabilidad 1
+\sigma(R_2) | Desviación típica de la rentabilidad 2
+\sigma^2(R_1) | Varianza de la rentabilidad 1
+R_L | Threshold return: rentabilidad mínima aceptable (shortfall level)
+z_{\alpha/2} | Valor crítico de la normal estándar para un nivel de confianza 1 − α
+t_{\alpha/2} | Valor crítico de la t de Student (n − 1 grados de libertad)
+\hat{\theta}_b | Estimación del estadístico en la remuestra b
+\bar{\theta} | Media de las estimaciones de todas las remuestras
+{}_nC_x | Combinaciones de n elementos tomados de x en x
+p | Probabilidad de éxito en cada ensayo
+q | Probabilidad de fracaso (1 − p)
+x | Número de éxitos
+x_1 | Límite inferior del intervalo
+x_2 | Límite superior del intervalo
+\mu_0 | Valor de la media bajo la hipótesis nula
+\bar{X}_1 | Media de la muestra 1
+\bar{X}_2 | Media de la muestra 2
+\mu_1 | Media poblacional del grupo 1
+\mu_2 | Media poblacional del grupo 2
+s_p^2 | Pooled variance: varianza conjunta de las dos muestras
+n_1 | Tamaño de la muestra 1
+n_2 | Tamaño de la muestra 2
+s_1^2 | Varianza de la muestra 1
+s_2^2 | Varianza de la muestra 2
+s_1 | Desviación típica de la muestra 1
+s_2 | Desviación típica de la muestra 2
+\bar{d} | Media de las diferencias entre pares
+\mu_{d0} | Diferencia media bajo la hipótesis nula
+s_{\bar{d}} | Error estándar de la media de las diferencias
+s_d | Desviación típica de las diferencias
+\sigma_0 | Desviación típica bajo la hipótesis nula
+\sigma_0^2 | Varianza bajo la hipótesis nula
+s_0 | Desviación típica de referencia
+d_i | Diferencia entre los rangos de la observación i
+O_{ij} | Observed: frecuencia observada en la celda (i, j)
+E_{ij} | Expected: frecuencia esperada en la celda (i, j)
+\hat{b}_0 | Intercepto estimado de la regresión
+\hat{b}_1 | Pendiente estimada de la regresión
+B_1 | Valor de la pendiente bajo la hipótesis nula
+\varepsilon_i | Término de error (residuo) de la observación i
+\text{Cov}(X,Y) | Covarianza entre X e Y
+\text{Var}(X) | Varianza de X
+\text{Var}(Y) | Varianza de Y
+\sigma_X | Desviación típica de X
+SSR | Sum of squares regression: variación explicada
+SSE | Sum of squared errors: variación no explicada
+SST | Total sum of squares: variación total
+MSR | Mean square regression: SSR / k
+MSE | Mean square error: SSE / (n − k − 1)
+k | Número de variables independientes
+s_{\hat{b}_1} | Error estándar de la pendiente estimada
+s_e | Standard error of estimate (SEE)
+X_f | Valor de X para el que se hace la predicción
+\hat{Y}_f | Valor predicho de Y
+s_f | Error estándar de la predicción
+\sigma_{\bar{x}} | Error estándar de la media muestral
+\prod_{t=1}^{T} | Productorio para t de 1 a T
+\sum_{t=1}^{T} | Sumatorio para t de 1 a T
+@QM:Parametric test of a correlation
+r | Sample correlation: coeficiente de correlación muestral
+@QM:Bootstrap resampling
+B | Número de remuestras (bootstrap)
+@QM:Continuous uniform distribution
+a | Límite inferior de la distribución
+b | Límite superior de la distribución
+@QM:z-score
+x | Valor observado
+@QM:Variance of a binomial random variable
+n | Número de ensayos
+@QM:Binomial distribution
+n | Número de ensayos
+
+@ECO
+\Delta{QD_x} | Variación de la cantidad demandada del bien x
+\Delta{P_x} | Variación del precio del bien x
+P_x | Precio del bien x
+QD_x | Cantidad demandada del bien x
+QD_y | Cantidad demandada del bien y
+I | Investment: inversión (en las elasticidades, Income: renta)
+\Delta{I} | Variación de la renta del consumidor
+P_y | Precio del bien y (otro bien)
+\Delta{P_y} | Variación del precio del bien y
+P | Precio (en MV = PY, nivel general de precios)
+E_P | Elasticidad precio de la demanda
+Q | Cantidad
+MC | Marginal cost: coste marginal
+C | Consumption: consumo
+G | Government spending: gasto público
+X | Exports: exportaciones
+M | Imports: importaciones
+T | Taxes: impuestos
+S | Saving: ahorro
+B | Transfer payments: transferencias del Estado
+Y | Renta / output real
+k | Proporción de la renta que se mantiene en dinero
+M_D | Money demand: demanda de dinero
+W_L | Peso del trabajo en la producción (labor share)
+W_K | Peso del capital en la producción (capital share)
+W | Compensación total por hora trabajada
+O | Output por hora trabajada
+NT | Net taxes: impuestos netos de transferencias
+MPC | Marginal propensity to consume: propensión marginal a consumir
+MPS | Marginal propensity to save: propensión marginal a ahorrar
+R_N | Nominal interest rate: tipo de interés nominal
+R_R | Real interest rate: tipo de interés real
+\Pi^e | Expected inflation: inflación esperada
+S_{d/f} | Tipo de cambio spot: unidades de moneda doméstica por unidad de moneda extranjera
+S_{f/d} | Tipo de cambio spot: unidades de moneda extranjera por unidad de doméstica
+P_f | Nivel de precios extranjero
+P_d | Nivel de precios doméstico
+\omega_X | Peso de las exportaciones en el comercio total
+\omega_M | Peso de las importaciones en el comercio total
+\omega_D | Peso de la demanda interna
+\varepsilon_X | Elasticidad precio de las exportaciones
+\varepsilon_M | Elasticidad precio de las importaciones
+A/C | Tipo de cambio: unidades de A por unidad de C
+C/B | Tipo de cambio: unidades de C por unidad de B
+B/C | Tipo de cambio: unidades de B por unidad de C
+C/A | Tipo de cambio: unidades de C por unidad de A
+S_{A/B} | Spot rate: unidades de A (price currency) por unidad de B (base currency)
+S_{B/A} | Spot rate: unidades de B por unidad de A
+r_A | Tipo de interés de la divisa A
+r_B | Tipo de interés de la divisa B
+S_{P/B} | Spot rate: unidades de la price currency por unidad de la base currency
+S_{B/P} | Spot rate: unidades de la base currency por unidad de la price currency
+E(S_{P/B}) | Tipo de cambio spot esperado en el futuro
+\sum_{i=1}^{n} | Sumatorio sobre las n empresas del sector
+N | Número de empresas del mercado
+@ECO:Income elasticity of demand
+I | Income: renta del consumidor
+@ECO:Own-price elasticity of demand
+I | Income: renta del consumidor
+@ECO:Cross-price elasticity of demand
+I | Income: renta del consumidor
+@ECO:Forward exchange rate
+T | Plazo del forward en años (días/360)
+
+@CI
+DOH | Days of inventory on hand: días de inventario
+DSO | Days sales outstanding: días de cobro a clientes
+DPO | Days payables outstanding: días de pago a proveedores
+\text{Disc}\% | Descuento por pronto pago (en %)
+w_d | Peso de la deuda en la estructura de capital
+r_d | Coste de la deuda antes de impuestos
+w_p | Peso de las acciones preferentes
+r_p | Coste de las acciones preferentes
+w_e | Peso del equity (acciones ordinarias)
+r_e | Coste del equity
+D/E | Ratio deuda / equity (en valor de mercado)
+E/D | Ratio equity / deuda
+D | Valor de mercado de la deuda
+E | Valor de mercado del equity
+V_L | Valor de la empresa apalancada (con deuda)
+V_U | Valor de la empresa sin deuda (unlevered)
+r_0 | Coste del capital de la empresa sin deuda (unlevered)
+V_E | Valor del equity
+\beta | Beta de la acción
+
+@FSA
+EI_{LIFO} | Ending inventory bajo LIFO: inventario final
+EI_{FIFO} | Ending inventory bajo FIFO
+LR | LIFO reserve: diferencia entre inventario FIFO y LIFO
+\Delta{LR} | Variación de la LIFO reserve en el periodo
+COGS_{LIFO} | Cost of goods sold bajo LIFO: coste de las ventas
+NI_{LIFO} | Net income bajo LIFO
+\Delta{DTL} | Variación del deferred tax liability (pasivo por impuesto diferido)
+\Delta{DTA} | Variación del deferred tax asset (activo por impuesto diferido)
+#COGS | Cost of goods sold: coste de las mercancías vendidas
+#SG&A_expense | Selling, general and administrative expenses: gastos de venta, generales y de administración
+#Beginning_SE | Shareholders' equity al inicio del periodo
+#OCI | Other comprehensive income: otro resultado global
+#WASO | Weighted average shares outstanding: media ponderada de acciones en circulación
+#Pref._div. | Preferred dividends: dividendos preferentes
+#After-tax_interest_on_conv._debt | Intereses de la deuda convertible después de impuestos
+#Total_LT_debt | Total long-term debt: deuda total a largo plazo
+#Cash_paid_for_LT_assets | Caja pagada por activos a largo plazo (capex)
+#Gross_PP&E | Gross property, plant and equipment: inmovilizado material bruto
+#Net_PP&E | Net PP&E: inmovilizado material neto (bruto − amortización acumulada)
+#Initial_ROU_asset_value | Valor inicial del right-of-use asset (derecho de uso del leasing)
+#ST_marketable_investments | Short-term marketable investments: inversiones financieras a corto plazo
+#ST_debt | Short-term debt: deuda a corto plazo
+#LT_debt | Long-term debt: deuda a largo plazo
+#ROA | Return on assets: rentabilidad sobre los activos
+#EBIT_margin | EBIT / Revenue: margen operativo
+#NI_attributable_to_common_shares | Beneficio neto atribuible a los accionistas ordinarios
+#NI_to_common | Beneficio neto atribuible a los accionistas ordinarios
+DTL | Deferred tax liability: pasivo por impuesto diferido
+
+@EQ
+N | Número de valores que forman el índice
+M_0 | Initial margin: margen inicial (fracción del precio que pone el inversor)
+Q_0 | Número de acciones compradas
+r_{CM} | Call money rate: tipo de interés del préstamo del broker
+D | Divisor del índice
+C | Fixed financial costs: costes financieros fijos (intereses)
+n_i | Número de acciones del valor i en el índice
+P_i | Precio del valor i
+P_j | Precio del valor j
+Q_i | Acciones en circulación del valor i
+Q_j | Acciones en circulación del valor j
+f_i | Fracción del capital que es free float
+w_i | Peso del valor i en el índice
+V_{PRI0} | Valor del índice de precios al inicio
+V_{PRI1} | Valor del índice de precios al final
+V_{TRI0} | Valor del índice de rentabilidad total al inicio
+Inc_I | Income: dividendos de los valores del índice durante el periodo
+NI_t | Net income del año t
+NI_{t-1} | Net income del año anterior
+BVE_t | Book value of equity al final del año t
+BVE_{t-1} | Book value of equity al final del año anterior
+Q | Unidades vendidas
+P | Precio por unidad
+V | Variable cost: coste variable por unidad
+VC | Variable cost: coste variable por unidad
+F | Fixed operating costs: costes operativos fijos
+FC | Fixed costs: costes fijos totales
+r | Required return on equity: rentabilidad exigida al equity
+r_e | Required return on equity: rentabilidad exigida al equity
+b | Retention rate: proporción del beneficio que se retiene (1 − payout)
+D_0/E_0 | Payout ratio actual: dividendo / beneficio del último año
+D_1/E_1 | Payout ratio esperado del próximo año
+#MV_of_equity | Market value of equity: valor de mercado del equity
+#MV_of_preferred_stock | Valor de mercado de las acciones preferentes
+#MV_of_debt | Valor de mercado de la deuda
+#Cash_and_ST_investments | Caja e inversiones a corto plazo
+WACC | Weighted average cost of capital: se usa para descontar el FCFF, no el FCFE
+\sum_{t=1}^{\infty} | Sumatorio de t = 1 hasta infinito
+@EQ:Return on a margin transaction
+D | Dividendos recibidos
+C | Comisiones pagadas
+@EQ:Value of a price return index
+D | Divisor del índice
+@EQ:Total return of an index
+D | Divisor del índice
+
+@FI
+K | Constante fija del inverse floater (tipo máximo)
+L | Coefficient leverage: multiplicador del tipo de referencia
+V_{\text{non-callable}} | Valor del mismo bono sin la opción de amortización
+V_{\text{call}} | Valor de la call (opción del emisor)
+V_{\text{put}} | Valor de la put (opción del inversor)
+V_{\text{non-putable}} | Valor del mismo bono sin la opción de venta
+V_{\text{callable}} | Valor del bono callable
+V_{\text{putable}} | Valor del bono putable
+PV^{\text{Flat}} | Flat (clean) price: precio sin cupón corrido
+PV^{\text{Full}} | Full (dirty) price: precio con cupón corrido
+PV^{Full} | Full (dirty) price: precio con cupón corrido
+PV^{Flat} | Flat (clean) price: precio sin cupón corrido
+PV^{\text{BOP}} | Precio en la última fecha de cupón (beginning of period)
+AI | Accrued interest: cupón corrido
+\text{Yield}_S | Yield del bono con vencimiento más corto (Short)
+\text{Yield}_L | Yield del bono con vencimiento más largo (Long)
+\text{Yield}_{\text{Target}} | Yield del bono que queremos valorar
+\text{Tenor}_S | Vencimiento del bono más corto
+\text{Tenor}_L | Vencimiento del bono más largo
+\text{Tenor}_{\text{Target}} | Vencimiento del bono que queremos valorar
+APR_n | Annual percentage rate con n periodos de capitalización al año
+n | Número de periodos de capitalización al año
+m | Número de periodos de capitalización al año
+Yield_{30/360} | Yield calculado con la convención 30/360
+Yield_{ACT/ACT} | Yield con la convención actual/actual
+N | Años hasta el vencimiento
+DR | Discount rate: tipo de descuento (money market)
+AOR | Add-on rate: tipo «add-on» (money market)
+z_A | Spot rate (cupón cero) a A años
+z_B | Spot rate (cupón cero) a B años
+IFR_{A,B-A} | Implied forward rate: forward que empieza en A con plazo B − A
+Z_1 | Spot rate a 1 año
+Z_2 | Spot rate a 2 años
+Z_N | Spot rate a N años
+r | Market discount rate (YTM) por periodo
+MacDur | Macaulay duration
+ModDur | Modified duration
+ModDur_i | Modified duration del bono i
+AnnModDur | Annual modified duration
+\Delta{Yield} | Variación del yield (en decimal)
+\Delta{Curve} | Desplazamiento paralelo de la curva de referencia
+PV_- | Precio si el yield BAJA (precio más alto)
+PV_+ | Precio si el yield SUBE (precio más bajo)
+PV_0 | Precio actual del bono
+\text{ApproxModDur} | Approximate modified duration
+MoneyDur | Money duration: duración en unidades monetarias
+AnnConvexity | Annual convexity: convexidad anual
+Convexity_i | Convexidad del bono i
+FFO | Funds from operations: flujos de las operaciones
+c_i | Cupón del préstamo i
+CB_i | Saldo vivo (current balance) del préstamo i
+CB | Saldo vivo total del pool
+MM_i | Meses hasta vencimiento del préstamo i
+NOI | Net operating income: ingreso operativo neto del inmueble
+#Bond_YTM | Yield to maturity del bono
+#Interpolated_sovereign_bond_YTM | YTM del bono soberano interpolado al mismo vencimiento
+#NOI | Net operating income: ingreso operativo neto
+EBITDA | Earnings before interest, taxes, depreciation and amortization
+@FI:Accrued interest
+t | Días transcurridos desde el último cupón
+T | Días totales del periodo de cupón
+@FI:Full price from the previous coupon date
+r | Yield por periodo de cupón
+@FI:Simple yield
+N | Años hasta el vencimiento
+@FI:Weighted average coupon (WAC)
+N | Número de préstamos del pool
+
+@DER
+r | Risk-free rate: tipo libre de riesgo
+E(S_T) | Precio esperado del activo en T
+PV_0(I) | Valor actual de los ingresos (dividendos, cupones) durante la vida del contrato
+PV_0(C) | Valor actual de los costes (almacenaje…) durante la vida del contrato
+S_{0,f/d} | Spot hoy: unidades de moneda f (price) por unidad de d (base)
+S_{0,d/f} | Spot hoy: unidades de moneda d por unidad de f
+r_f | Tipo de interés de la moneda f (price currency)
+r_d | Tipo de interés de la moneda d (base currency)
+MRR_{B-A} | Tipo de referencia de mercado para el plazo B − A al vencimiento del FRA
+MRR_{A,B-A} | Tipo de referencia implícito en el futuro (periodo B − A que empieza en A)
+IFR_{A,B-A} | Implied forward rate pactado en el FRA
+s_N | Swap rate fijo
+\Delta\text{CDS~spread} | Variación del spread del CDS
+EffDur_{CDS} | Duración efectiva del CDS
+#CDS_notional | Nocional del CDS
+R_F | Risk-free rate: tipo libre de riesgo
+PV(\text{Debt}) | Valor actual de la deuda (descontada al tipo libre de riesgo)
+R^u | Up factor: multiplicador si el precio sube
+R^d | Down factor: multiplicador si el precio baja
+c_1^u | Valor de la call en el escenario de subida
+c_1^d | Valor de la call en el escenario de bajada
+p_1^u | Valor de la put en el escenario de subida
+S_1^u | Precio del subyacente si sube
+S_1^d | Precio del subyacente si baja
+\pi | Risk-neutral probability: probabilidad neutral al riesgo
+
+@ALT
+r | Rentabilidad bruta del fondo
+r_h | Hurdle rate: rentabilidad mínima antes de que el GP cobre incentivo
+r_{cu} | Catch-up rate: tramo de rentabilidad del catch-up
+p | Performance fee: porcentaje de incentivo del GP (carried interest)
+R_{GP} | Comisiones totales que cobra el GP
+r_m | Management fee: comisión de gestión (en %)
+P_0 | Valor del fondo al inicio
+P_1 | Valor del fondo al final (antes de comisiones)
+V_b | Valor de los fondos prestados
+V_c | Capital propio aportado
+r_b | Coste de la deuda
+r_c | Rentabilidad sobre el capital propio
+r_L | Rentabilidad de la cartera apalancada
+V_E | Valor del equity
+
+@PM
+N | Número de activos de la cartera
+r_{rF} | Tipo libre de riesgo real
+E(\pi) | Inflación esperada
+E(RP) | Prima de riesgo esperada
+\beta | Beta
+\bar{\sigma}^2 | Varianza media de los activos
+\overline{\text{Cov}} | Covarianza media entre pares de activos
+\rho | Correlación entre la rentabilidad local y la de la divisa
+R_{lc} | Rentabilidad del activo en moneda local
+R_{FX} | Variación del tipo de cambio (moneda extranjera frente a la doméstica)
+\sigma_{lc} | Desviación típica de la rentabilidad en moneda local
+\sigma_{FX} | Desviación típica del tipo de cambio
+A | Coeficiente de aversión al riesgo
+w_f | Peso del activo libre de riesgo
+\sigma_f | Desviación típica del activo libre de riesgo (= 0)
+\text{Cov}(R_i,R_m) | Covarianza entre el activo i y el mercado
+\rho_{i,m} | Correlación entre el activo i y el mercado
+\lambda_1 | Prima de riesgo del factor 1
+\lambda_K | Prima de riesgo del factor K
+\beta_{P,1} | Sensibilidad de la cartera al factor 1
+\beta_{P,K} | Sensibilidad de la cartera al factor K
+\alpha_P | Alpha de la cartera
+\alpha_i | Alpha del activo: rentabilidad no explicada por el mercado
+\beta_{i,MKT} | Sensibilidad al factor mercado
+\beta_{i,SMB} | Sensibilidad al factor tamaño (small minus big)
+\beta_{i,HML} | Sensibilidad al factor valor (high minus low)
+\beta_{i,UMD} | Sensibilidad al factor momentum (up minus down)
+MKT_t | Exceso de rentabilidad del mercado
+SMB_t | Small minus big: prima de las empresas pequeñas
+HML_t | High minus low: prima de las empresas value
+UMD_t | Up minus down: prima de momentum
+M^2 | M-squared: rentabilidad ajustada al riesgo del mercado
+\sigma_{ei} | Desviación típica del error (tracking error frente al benchmark)
+e_i | Término de error del activo i
+R_1 | Rentabilidad del activo 1
+R_2 | Rentabilidad del activo 2
+\mu | Rentabilidad media
+`;
+
+var GLOSSARY = (function () {
+  var out = { '*': {} }, scope = '*';
+  GLOSSARY_SOURCE.split('\n').forEach(function (line) {
+    line = line.trim();
+    if (!line) return;
+    if (line.charAt(0) === '@') {
+      var s = line.slice(1).trim();
+      var c = s.indexOf(':');
+      scope = c < 0 ? s : '@' + s.slice(0, c) + '-' + s.slice(c + 1).toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+      out[scope] = out[scope] || {};
+      return;
+    }
+    var k = line.indexOf(' | ');
+    if (k < 0) return;
+    out[scope][line.slice(0, k).trim()] = line.slice(k + 3).trim();
+  });
+  return out;
+})();
+</script>
 <script>// Motor de fórmulas: clasifica piezas, parsea, evalúa y genera LaTeX.
 (function (root) {
   'use strict';
@@ -1248,7 +2310,12 @@ Market model | R_i | \alpha_i + \beta_i R_m + e_i | R_f \sigma_m |
     if (tk && tk.type === 'big') {
       this.next();
       var a = this.parseUnary();
-      while (startsOperand(this.peek())) a = { k: 'bin', op: 'imp', a: a, b: this.parseUnary() };
+      for (;;) {
+        var nx = this.peek();
+        if (startsOperand(nx)) a = { k: 'bin', op: 'imp', a: a, b: this.parseUnary() };
+        else if (nx && nx.type === 'op' && nx.op === '*' && startsOperand(this.t[this.i + 1])) { this.next(); a = { k: 'bin', op: '*', a: a, b: this.parseUnary() }; }
+        else break;
+      }
       return { k: 'big', tok: tk, a: a };
     }
     return this.parsePostfix();
@@ -1363,18 +2430,71 @@ Market model | R_i | \alpha_i + \beta_i R_m + e_i | R_f \sigma_m |
     };
   }
 
+  // ---------- Equivalencias entre piezas ----------
+  // Piezas que significan lo mismo (comparten valor al comprobar)
+  var SYNONYMS = {
+    '*': [
+      ['R_f', 'R_F', 'r_f'],
+      ['NI', '#Net_income', '#NI'],
+      ['EBT', '#Pretax_income'],
+      ['EBIT', '#Profit_before_interest_and_taxes'],
+      ['#Revenue', '#Sales'],
+      ['#WASO', '#Weighted_average_shares_outstanding'],
+      ['#Pref._div.', '#Preferred_dividends'],
+      ['MacDur', '#Macaulay_duration'],
+      ['#Average_total_equity', "#Average_shareholders'_equity"],
+      ["#Shareholders'_equity", '#Total_equity'],
+      ['ROA', '#ROA'],
+      ['#Retention_rate', 'b'],
+      ['#Payout_ratio', '#Dividend_payout_ratio']
+    ],
+    EQ: [['r', 'r_e'], ['g', 'g_c']]
+  };
+  // Variables que se pueden expresar con otras (D1 = D0(1+g)…)
+  var DERIVED_SRC = {
+    'D_1': 'D_0 ( 1 + g )',
+    'D_n': 'D_0 ( 1 + g_S ) ^n',
+    'D_{n+1}': 'D_n ( 1 + g_L )',
+    'IQR': 'Q_3 - Q_1',
+    'SST': 'SSR + SSE',
+    'V_E': 'V_A - V_B'
+  };
+  var SYN_INDEX = {};
+  Object.keys(SYNONYMS).forEach(function (scope) {
+    SYN_INDEX[scope] = {};
+    SYNONYMS[scope].forEach(function (group) { group.forEach(function (r) { SYN_INDEX[scope][r] = group[0]; }); });
+  });
+  function canonKey(raw, topic) {
+    var t = topic && SYN_INDEX[topic] && SYN_INDEX[topic][raw];
+    if (t) raw = t;
+    return SYN_INDEX['*'][raw] || raw;
+  }
+  var DERIVED = null;
+  function derived() {
+    if (DERIVED) return DERIVED;
+    DERIVED = {};
+    Object.keys(DERIVED_SRC).forEach(function (k) {
+      DERIVED[k] = new Parser(DERIVED_SRC[k].split(' ').map(classify)).parseAll();
+    });
+    return DERIVED;
+  }
+  function sameMeaning(a, b, topic) { return canonKey(a, topic) === canonKey(b, topic); }
+
   // Variables que representan recuentos (n, N, T...) toman valores mayores para que n − 1, n − 2... sean positivos
   var COUNT_VARS = { n: 1, N: 1, T: 1, B: 1, k: 1, m: 1, n_1: 1, n_2: 1 };
 
-  function equivalent(canonAst, userAst) {
+  function equivalent(canonAst, userAst, topic) {
     var valid = 0;
+    var D = derived();
     for (var trial = 0; trial < 12; trial++) {
       var r = rng(1234 + trial * 7919);
       var small = trial % 2 === 0;
       var vals = {};
       var env = function (k) {
+        k = canonKey(k, topic);
         if (!(k in vals)) {
-          if (COUNT_VARS[k]) vals[k] = 3 + 6 * r();
+          if (D[k]) { vals[k] = NaN; vals[k] = evaluate(D[k], env); }
+          else if (COUNT_VARS[k]) vals[k] = 3 + 6 * r();
           else vals[k] = small ? 0.01 + 0.07 * r() : 0.1 + 0.8 * r();
         }
         return vals[k];
@@ -1572,15 +2692,100 @@ Market model | R_i | \alpha_i + \beta_i R_m + e_i | R_f \sigma_m |
     var toks = userRaws.map(classify);
     var p = parse(toks);
     if (!p.ok) return false;
-    var eq = equivalent(f.ast, p.ast);
+    var eq = equivalent(f.ast, p.ast, f.topic);
     if (eq === null) return false;
     return eq;
+  }
+
+  // ---------- Variantes equivalentes (reordenando sumandos y factores) ----------
+  function shuffleArr(a, rnd) {
+    for (var i = a.length - 1; i > 0; i--) { var j = Math.floor(rnd() * (i + 1)); var t = a[i]; a[i] = a[j]; a[j] = t; }
+    return a;
+  }
+  function sumTerms(n, sign, out) {
+    if (n.k === 'bin' && (n.op === '+' || n.op === '-')) { sumTerms(n.a, sign, out); sumTerms(n.b, n.op === '-' ? -sign : sign, out); }
+    else if (n.k === 'neg') sumTerms(n.a, -sign, out);
+    else out.push({ sign: sign, n: n });
+    return out;
+  }
+  function prodFactors(n, out) {
+    if (n.k === 'bin' && (n.op === '*' || n.op === 'imp' || n.op === '/')) { prodFactors(n.a, out); out.push({ op: n.op, n: n.b }); }
+    else out.push({ op: 'first', n: n });
+    return out;
+  }
+  function serialize(n, rnd, mix) {
+    switch (n.k) {
+      case 'leaf': return [n.tok.raw];
+      case 'grp':
+        var g = [n.open];
+        n.items.forEach(function (x, i) { if (i) g.push(','); g = g.concat(serialize(x, rnd, mix)); });
+        return g.concat([n.close]);
+      case 'pow': return serialize(n.a, rnd, mix).concat([n.tok.raw]);
+      case 'fn': return [n.name].concat(serialize(n.a, rnd, mix));
+      case 'big': return [n.tok.raw].concat(serialize(n.a, rnd, false));
+      case 'neg': return ['-'].concat(serialize(n.a, rnd, mix));
+      case 'bin':
+        if (n.op === 'pm') return serialize(n.a, rnd, mix).concat(['pm'], serialize(n.b, rnd, mix));
+        var out = [];
+        if (n.op === '+' || n.op === '-') {
+          var t = sumTerms(n, 1, []);
+          if (mix) shuffleArr(t, rnd);
+          t.forEach(function (x, i) {
+            if (i === 0) { if (x.sign < 0) out.push('-'); } else out.push(x.sign < 0 ? '-' : '+');
+            out = out.concat(serialize(x.n, rnd, mix));
+          });
+          return out;
+        }
+        var f = prodFactors(n, []);
+        var hasBig = f.some(function (x) { return x.n.k === 'big'; });
+        var origFirst = f[0];
+        if (mix && !hasBig) {
+          shuffleArr(f, rnd);
+          var fm = -1;
+          for (var q = 0; q < f.length; q++) if (f[q].op !== '/') { fm = q; break; }
+          if (fm > 0) { var m = f.splice(fm, 1)[0]; f.unshift(m); }
+        }
+        f.forEach(function (x, i) {
+          if (i > 0) {
+            var op = x === origFirst ? 'imp' : x.op;
+            if (op === '/') out.push('/');
+            else if (op === '*' || x.n.k === 'neg') out.push('*');
+          }
+          out = out.concat(serialize(x.n, rnd, mix));
+        });
+        return out;
+    }
+    return [];
+  }
+  function variants(f, count) {
+    var seen = {}, list = [];
+    var base = f.canon.slice();
+    var bag = {};
+    base.forEach(function (r) { bag[r] = (bag[r] || 0) + 1; });
+    function sameBag(v) {
+      if (v.length !== base.length) return false;
+      var b = {};
+      for (var i = 0; i < v.length; i++) b[v[i]] = (b[v[i]] || 0) + 1;
+      return Object.keys(bag).every(function (k) { return b[k] === bag[k]; });
+    }
+    seen[base.join(' ')] = 1; list.push(base);
+    var rnd = rng(99);
+    for (var i = 0; i < count * 3 && list.length < count; i++) {
+      var v = serialize(f.ast, rnd, true);
+      var key = v.join(' ');
+      if (seen[key] || !sameBag(v)) continue;
+      seen[key] = 1;
+      if (check(f, v)) list.push(v);
+    }
+    return list;
   }
 
   var api = {
     classify: classify, parse: parse, evaluate: evaluate, equivalent: equivalent,
     toTex: toTex, loadFormulas: loadFormulas, fullTex: fullTex, check: check,
-    TOPICS: TOPICS, TOPIC_ORDER: TOPIC_ORDER, HOLE: HOLE
+    TOPICS: TOPICS, TOPIC_ORDER: TOPIC_ORDER, HOLE: HOLE,
+    variants: variants, sameMeaning: sameMeaning, canonKey: canonKey,
+    isDerived: function (raw) { return !!DERIVED_SRC[raw]; }
   };
   if (typeof module !== 'undefined' && module.exports) module.exports = api;
   root.FE = api;
@@ -1594,7 +2799,8 @@ Market model | R_i | \alpha_i + \beta_i R_m + e_i | R_f \sigma_m |
   FORMULAS.forEach(function (f) { BY_ID[f.id] = f; });
   var TOPICS = FE.TOPICS, ORDER = FE.TOPIC_ORDER;
   var COLORS = { QM: '#007AFF', ECO: '#34C759', CI: '#FF9500', FSA: '#5856D6', EQ: '#FF2D55', FI: '#30B0C7', DER: '#AF52DE', ALT: '#A2845E', PM: '#FF3B30' };
-  var ROUND = 10;
+  var DEFS = typeof FORMULA_DEFS !== 'undefined' ? FORMULA_DEFS : {};
+  var GLOSS = typeof GLOSSARY !== 'undefined' ? GLOSSARY : { '*': {} };
 
   // ---------- Almacenamiento (solo comodidad local) ----------
   var store = {
@@ -1603,6 +2809,7 @@ Market model | R_i | \alpha_i + \beta_i R_m + e_i | R_f \sigma_m |
   };
   var settings = store.get('cfa-puzzle-settings', {});
   settings.diff = settings.diff || 'normal';
+  settings.qlen = [5, 10, 20].indexOf(settings.qlen) >= 0 ? settings.qlen : 10;
   settings.pick = Array.isArray(settings.pick) && settings.pick.length ? settings.pick : ORDER.slice();
   delete settings.topics;
   var stats = store.get('cfa-puzzle-stats', {});
@@ -1618,10 +2825,11 @@ Market model | R_i | \alpha_i + \beta_i R_m + e_i | R_f \sigma_m |
   }
 
   // ---------- Estado de la sesión ----------
+  // Un quiz son N fórmulas distintas. "Pasar" manda la pregunta al final de la cola.
   var S = {
-    q: null, tokens: [], bankEls: [], answered: false, hintUsed: false,
-    streak: 0, round: 0, roundCorrect: 0, count: 0, recent: [], retry: [], drag: null,
-    mode: 'random', topics: ORDER.slice(), cleared: 0
+    q: null, tokens: [], bankEls: [], answered: false, hintUsed: false, variants: null,
+    streak: 0, drag: null, mode: 'random', topics: ORDER.slice(), cleared: 0,
+    slots: [], queue: [], cur: -1, lastQuiz: [], updateReady: false
   };
   var MODE_NAMES = { random: 'Al azar', topics: 'Por temas', mistakes: 'Las que más fallo' };
 
@@ -1647,7 +2855,7 @@ Market model | R_i | \alpha_i + \beta_i R_m + e_i | R_f \sigma_m |
     t.textContent = msg;
     t.classList.add('show');
     clearTimeout(toast._t);
-    toast._t = setTimeout(function () { t.classList.remove('show'); }, 1800);
+    toast._t = setTimeout(function () { t.classList.remove('show'); }, 1900);
   }
 
   // ---------- Distractores automáticos ----------
@@ -1660,6 +2868,12 @@ Market model | R_i | \alpha_i + \beta_i R_m + e_i | R_f \sigma_m |
       if (t.text) p.text[raw] = 1; else p.math[raw] = 1;
     });
   });
+  // Forma "normalizada" para no ofrecer como trampa algo casi idéntico a una pieza correcta (Rf / RF, E(Rm) / Rm…)
+  function norm(raw, topic) {
+    return FE.canonKey(raw, topic).toLowerCase()
+      .replace(/^#/, '').replace(/\\(text|bar|hat|overline|mathrm)/g, '')
+      .replace(/^e\((.*)\)$/, '$1').replace(/[\\{}()_~\s.'-]/g, '');
+  }
 
   function buildTokens(f) {
     var raws = f.canon.slice();
@@ -1668,13 +2882,14 @@ Market model | R_i | \alpha_i + \beta_i R_m + e_i | R_f \sigma_m |
     if (settings.diff === 'easy') curated = shuffle(curated).slice(0, Math.min(2, curated.length));
     if (settings.diff === 'normal') extra = 1;
     if (settings.diff === 'hard') extra = 3;
-    var used = {};
-    raws.concat(curated).forEach(function (r) { used[r] = 1; });
+    var used = {}, normed = {};
+    raws.concat(curated).forEach(function (r) { used[r] = 1; normed[norm(r, f.topic)] = 1; });
+    normed[norm(f.lhs, f.topic)] = 1;
     if (extra) {
       var textCount = 0, mathCount = 0;
       raws.forEach(function (r) { var t = FE.classify(r); if (t.type === 'var') { if (t.text) textCount++; else mathCount++; } });
       var pool = POOLS[f.topic][textCount > mathCount ? 'text' : 'math'];
-      var cands = shuffle(Object.keys(pool).filter(function (r) { return !used[r] && r !== f.lhs; }));
+      var cands = shuffle(Object.keys(pool).filter(function (r) { return !used[r] && !normed[norm(r, f.topic)]; }));
       curated = curated.concat(cands.slice(0, extra));
     }
     var all = raws.concat(curated).map(function (raw, i) { return { raw: raw, tok: FE.classify(raw), canon: i < raws.length }; });
@@ -1686,7 +2901,7 @@ Market model | R_i | \alpha_i + \beta_i R_m + e_i | R_f \sigma_m |
     return all;
   }
 
-  // ---------- Selección de la siguiente fórmula ----------
+  // ---------- Selección de fórmulas ----------
   // Pendientes de "Las que más fallo": falladas alguna vez y aún sin 2 aciertos seguidos
   function isPending(f) {
     var st = stats[f.id];
@@ -1704,42 +2919,30 @@ Market model | R_i | \alpha_i + \beta_i R_m + e_i | R_f \sigma_m |
     if (S.mode === 'topics') return FORMULAS.filter(function (f) { return S.topics.indexOf(f.topic) >= 0; });
     return FORMULAS;
   }
-  function pickNext() {
-    var pool = modePool();
-    if (!pool.length) return null;
-    var inPool = {};
-    pool.forEach(function (f) { inPool[f.id] = 1; });
-    for (var i = 0; i < S.retry.length; i++) {
-      var r = S.retry[i];
-      if (r.due <= S.count && inPool[r.id] && (!S.q || S.q.id !== r.id || pool.length === 1)) {
-        S.retry.splice(i, 1);
-        return BY_ID[r.id];
-      }
-    }
-    if (S.mode === 'mistakes') {
-      var cand = pool.filter(function (f) { return !S.q || f.id !== S.q.id; });
-      if (!cand.length) cand = pool;
-      var top = cand.slice(0, Math.max(3, Math.ceil(cand.length / 2)));
-      var tw = top.map(failScore), ts = tw.reduce(function (a, b) { return a + b; }, 0), tx = Math.random() * ts;
-      for (var t = 0; t < top.length; t++) { tx -= tw[t]; if (tx <= 0) return top[t]; }
-      return top[0];
-    }
-    var avoid = Math.min(8, Math.max(0, pool.length - 1));
-    var recent = S.recent.slice(-avoid);
-    var cands = pool.filter(function (f) { return recent.indexOf(f.id) < 0; });
-    if (!cands.length) cands = pool;
-    var weights = cands.map(function (f) {
-      var st = stats[f.id];
-      if (!st || !st.s) return 1.2;
-      if (st.k === 0) return 1.8;
-      return 1 / (1 + 0.9 * st.k);
-    });
-    var sum = weights.reduce(function (a, b) { return a + b; }, 0);
-    var x = Math.random() * sum;
-    for (var j = 0; j < cands.length; j++) { x -= weights[j]; if (x <= 0) return cands[j]; }
-    return cands[cands.length - 1];
+  function weightOf(f) {
+    if (S.mode === 'mistakes') return failScore(f);
+    var st = stats[f.id];
+    if (!st || !st.s) return 1.2;
+    if (st.k === 0) return 1.8;
+    return 1 / (1 + 0.9 * st.k);
   }
-
+  // Muestreo ponderado SIN reemplazo: ninguna fórmula se repite dentro del quiz
+  function buildQuiz() {
+    var pool = modePool();
+    var n = Math.min(settings.qlen, pool.length);
+    if (!n) return [];
+    var fresh = pool.filter(function (f) { return S.lastQuiz.indexOf(f.id) < 0; });
+    var cands = fresh.length >= n ? fresh : pool;
+    if (S.mode === 'mistakes') cands = cands.slice(0, Math.max(n, Math.ceil(cands.length * 0.7)));
+    cands = cands.slice();
+    var chosen = [];
+    while (chosen.length < n && cands.length) {
+      var w = cands.map(weightOf), sum = w.reduce(function (a, b) { return a + b; }, 0), x = Math.random() * sum, k = 0;
+      for (; k < cands.length - 1; k++) { x -= w[k]; if (x <= 0) break; }
+      chosen.push(cands.splice(k, 1)[0]);
+    }
+    return chosen;
+  }
   // ---------- Piezas ----------
   var FN_TEX = { sqrt: '\\sqrt{\\phantom{x}}', abs: '\\lvert\\;\\;\\rvert', ln: '\\ln', exp: '\\exp', max: '\\max' };
   function chipClass(tok) {
@@ -2010,8 +3213,30 @@ Market model | R_i | \alpha_i + \beta_i R_m + e_i | R_f \sigma_m |
     else addToAnswer(+chip.dataset.i, null);
   }
 
-  // ---------- Pregunta ----------
-  function masteryHTML(f) {
+  // ---------- Quiz ----------
+  function startQuiz() {
+    var list = buildQuiz();
+    if (!list.length) { quizEmpty(); return; }
+    S.slots = list.map(function (f) { return { id: f.id, status: 'todo', saved: null, passes: 0 }; });
+    S.queue = S.slots.map(function (_, i) { return i; });
+    S.lastQuiz = list.map(function (f) { return f.id; });
+    S.cleared = 0;
+    renderBar();
+    loadSlot(S.queue[0]);
+  }
+
+  function renderBar() {
+    var bar = $('quiz-bar');
+    bar.innerHTML = S.slots.map(function (s, i) {
+      var cur = i === S.cur && (s.status === 'todo' || s.status === 'passed');
+      return '<i class="seg ' + s.status + (cur ? ' cur' : '') + '"></i>';
+    }).join('');
+    var done = S.slots.filter(function (s) { return s.status === 'ok' || s.status === 'bad'; }).length;
+    $('round-label').textContent = done + '/' + S.slots.length;
+  }
+
+  function masteryHTML(f, slot) {
+    if (slot && slot.passes) return '<span class="badge-pass">Pasada</span>';
     var st = stats[f.id];
     if (!st || !st.s) return '<span class="badge-new">Nueva</span>';
     if (S.mode === 'mistakes' && st.w) return '<span class="badge-fail">Fallada ' + st.w + (st.w === 1 ? ' vez' : ' veces') + '</span>';
@@ -2020,20 +3245,20 @@ Market model | R_i | \alpha_i + \beta_i R_m + e_i | R_f \sigma_m |
     return h + '</span>';
   }
 
-  function newQuestion() {
-    var f = pickNext();
-    if (!f) { mistakesDone(); return; }
+  function loadSlot(idx) {
+    var slot = S.slots[idx];
+    var f = BY_ID[slot.id];
+    S.cur = idx;
     S.q = f;
-    S.recent.push(f.id);
-    if (S.recent.length > 30) S.recent.shift();
-    S.tokens = buildTokens(f);
+    S.variants = null;
     S.answered = false;
-    S.hintUsed = false;
+    S.hintUsed = slot.saved ? slot.saved.hintUsed : false;
+    S.tokens = slot.saved ? slot.saved.tokens : buildTokens(f);
 
     $('topic-dot').style.background = COLORS[f.topic];
     $('topic-label').textContent = TOPICS[f.topic].name + ' · ' + f.lm;
-    $('mastery').innerHTML = masteryHTML(f);
-    $('fname').textContent = f.name;
+    $('mastery').innerHTML = masteryHTML(f, slot);
+    $('fname-text').textContent = f.name;
     updateNavSub();
 
     answerChips().forEach(function (c) { c.remove(); });
@@ -2046,8 +3271,15 @@ Market model | R_i | \alpha_i + \beta_i R_m + e_i | R_f \sigma_m |
       bankEl.appendChild(c);
       return c;
     });
+    if (slot.saved) {
+      slot.saved.answer.forEach(function (i) {
+        answerEl.appendChild(makeChip(i));
+        S.bankEls[i].classList.add('used');
+      });
+    }
     $('btn-hint').disabled = false;
-    $('btn-skip').disabled = false;
+    updatePassButton();
+    renderBar();
     changed();
 
     var stage = $('stage');
@@ -2057,17 +3289,60 @@ Market model | R_i | \alpha_i + \beta_i R_m + e_i | R_f \sigma_m |
     window.scrollTo({ top: 0, behavior: reduceMotion ? 'auto' : 'smooth' });
   }
 
-  // ---------- Pista ----------
+  // Si es la última que queda, "Pasar" se convierte en "Ver solución"
+  function isLastPending() { return S.queue.length <= 1; }
+  function updatePassButton() {
+    var last = isLastPending();
+    var b = $('btn-skip');
+    b.disabled = false;
+    b.querySelector('.lbl').textContent = last ? 'Ver solución' : 'Pasar';
+    b.setAttribute('aria-label', last ? 'Ver solución' : 'Pasar y dejarla para el final');
+    b.classList.toggle('reveal', last);
+  }
+
+  function pass() {
+    if (S.answered || S.drag) return;
+    if (isLastPending()) { finish(false, true); return; }
+    var slot = S.slots[S.cur];
+    slot.saved = { tokens: S.tokens, answer: answerChips().map(function (c) { return +c.dataset.i; }), hintUsed: S.hintUsed };
+    slot.status = 'passed';
+    slot.passes++;
+    S.queue.push(S.queue.shift());
+    toast('La dejas para el final');
+    haptic(6);
+    loadSlot(S.queue[0]);
+  }
+
+  function updateNavSub() {
+    var sub;
+    if (S.mode === 'topics') {
+      sub = S.topics.length === ORDER.length ? 'Todos los temas' : S.topics.length === 1 ? TOPICS[S.topics[0]].name : S.topics.length + ' temas';
+    } else if (S.mode === 'mistakes') {
+      var n = mistakesList().length;
+      sub = n + (n === 1 ? ' pendiente' : ' pendientes');
+    } else sub = FORMULAS.length + ' fórmulas';
+    var passed = S.slots.filter(function (s) { return s.status === 'passed'; }).length;
+    if (passed) sub += ' · ' + passed + (passed === 1 ? ' pasada' : ' pasadas');
+    $('nav-sub').textContent = sub;
+  }
+
+  // ---------- Pista (respeta órdenes equivalentes) ----------
   function hint() {
     if (S.answered) return;
-    var canon = S.q.canon;
     var chips = answerChips();
-    var k = 0;
-    while (k < chips.length && k < canon.length && S.tokens[+chips[k].dataset.i].raw === canon[k]) k++;
-    if (k >= canon.length) { toast('Tu fórmula ya está completa: pulsa Comprobar'); return; }
+    var user = chips.map(function (c) { return S.tokens[+c.dataset.i].raw; });
+    if (!S.variants) S.variants = FE.variants(S.q, 40);
+    var best = S.variants[0], bestK = -1;
+    S.variants.forEach(function (v) {
+      var k = 0;
+      while (k < user.length && k < v.length && user[k] === v[k]) k++;
+      if (k > bestK) { bestK = k; best = v; }
+    });
+    var k = bestK;
+    if (k >= best.length) { toast('Ya la tienes completa: pulsa Comprobar'); return; }
     S.hintUsed = true;
     for (var j = chips.length - 1; j >= k; j--) removeFromAnswer(chips[j]);
-    var want = canon[k];
+    var want = best[k];
     var keep = {};
     for (var p = 0; p < k; p++) keep[+chips[p].dataset.i] = 1;
     var pick = -1, i;
@@ -2088,6 +3363,7 @@ Market model | R_i | \alpha_i + \beta_i R_m + e_i | R_f \sigma_m |
   // ---------- Comprobar ----------
   var CHECK_SVG = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>';
   var X_SVG = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M7 7l10 10M17 7L7 17"/></svg>';
+  var EYE_SVG = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg>';
   var PRAISE = ['¡Perfecto!', '¡Correcto!', '¡Exacto!', '¡Muy bien!', '¡Eso es!'];
 
   function check() {
@@ -2097,7 +3373,33 @@ Market model | R_i | \alpha_i + \beta_i R_m + e_i | R_f \sigma_m |
     finish(FE.check(S.q, raws), false);
   }
 
-  function finish(ok, skipped) {
+  function miniChip(raw) {
+    var t = FE.classify(raw);
+    return '<span class="mini ' + chipClass(t) + '">' + chipHTML(t) + '</span>';
+  }
+
+  // Qué piezas sobran o faltan respecto a la fórmula (ignorando × y paréntesis)
+  function diffHTML(f, raws) {
+    var skip = { '*': 1, '(': 1, ')': 1, '[': 1, ']': 1 };
+    if (raws.concat(f.canon).some(function (r) { return FE.isDerived(r); })) return '';
+    var bag = {};
+    f.canon.forEach(function (r) { if (!skip[r]) { var k = FE.canonKey(r, f.topic); bag[k] = (bag[k] || []); bag[k].push(r); } });
+    var extra = [];
+    raws.forEach(function (r) {
+      if (skip[r]) return;
+      var k = FE.canonKey(r, f.topic);
+      if (bag[k] && bag[k].length) bag[k].pop(); else extra.push(r);
+    });
+    var missing = [];
+    Object.keys(bag).forEach(function (k) { missing = missing.concat(bag[k]); });
+    var h = '';
+    if (extra.length) h += '<div class="diff-row"><span class="diff-l">Sobra</span><span class="diff-chips">' + extra.map(miniChip).join('') + '</span></div>';
+    if (missing.length) h += '<div class="diff-row"><span class="diff-l">Falta</span><span class="diff-chips">' + missing.map(miniChip).join('') + '</span></div>';
+    if (!h) h = '<div class="diff-row"><span class="diff-note">Tienes las piezas correctas, pero el orden o los paréntesis cambian el resultado.</span></div>';
+    return h;
+  }
+
+  function finish(ok, revealed) {
     S.answered = true;
     document.body.classList.add('locked');
     $('btn-check').disabled = true;
@@ -2106,6 +3408,7 @@ Market model | R_i | \alpha_i + \beta_i R_m + e_i | R_f \sigma_m |
     $('btn-clear').hidden = true;
 
     var f = S.q;
+    var slot = S.slots[S.cur];
     var st = stats[f.id] || (stats[f.id] = { s: 0, c: 0, k: 0, w: 0 });
     var wasPending = isPending(f);
     st.s++;
@@ -2116,21 +3419,20 @@ Market model | R_i | \alpha_i + \beta_i R_m + e_i | R_f \sigma_m |
       if (!S.hintUsed) { st.k++; S.streak++; }
     } else {
       st.k = 0; S.streak = 0; st.w = (st.w || 0) + 1;
-      S.retry.push({ id: f.id, due: S.count + 3 + Math.floor(Math.random() * 3) });
     }
     totals.best = Math.max(totals.best, S.streak);
-    S.count++;
-    S.round++;
-    if (ok) S.roundCorrect++;
+    slot.status = ok ? 'ok' : 'bad';
+    slot.saved = null;
+    S.queue.shift();
     save();
     updateStreak(ok && !S.hintUsed);
-    updateRound();
+    renderBar();
     var leftList = wasPending && !isPending(f);
     if (leftList) S.cleared++;
     updateNavSub();
 
     answerEl.classList.add(ok ? 'ok' : 'bad');
-    if (!ok && !skipped) {
+    if (!ok && !revealed) {
       var b = $('build'); b.classList.remove('shake'); void b.offsetWidth; b.classList.add('shake');
       haptic([10, 40, 10]);
     } else if (ok) haptic(12);
@@ -2138,34 +3440,31 @@ Market model | R_i | \alpha_i + \beta_i R_m + e_i | R_f \sigma_m |
     var sheet = $('sheet');
     sheet.classList.remove('ok', 'bad');
     sheet.classList.add(ok ? 'ok' : 'bad');
-    $('sheet-icon').innerHTML = ok ? CHECK_SVG : X_SVG;
-    $('sheet-title').textContent = ok ? PRAISE[Math.floor(Math.random() * PRAISE.length)] : (skipped ? 'Así es la fórmula' : 'No es equivalente');
-    var sameOrder = answerRaws().join(' ') === f.canon.join(' ');
+    $('sheet-icon').innerHTML = ok ? CHECK_SVG : (revealed ? EYE_SVG : X_SVG);
+    $('sheet-title').textContent = ok ? PRAISE[Math.floor(Math.random() * PRAISE.length)] : (revealed ? 'Así es la fórmula' : 'No es equivalente');
+    var raws = answerRaws();
+    var sameOrder = raws.join(' ') === f.canon.join(' ');
     $('sheet-sub').textContent = ok
       ? (S.hintUsed ? 'Correcta, con pista' : (sameOrder ? 'Fórmula exacta' : 'Tu orden también es válido'))
-      : (skipped ? 'Volverá a salir en unas preguntas' : 'Revísala: volverá a salir pronto');
+      : 'Irá a tu lista de "Las que más fallo"';
+    $('answer-diff').innerHTML = (!ok && !revealed && raws.length) ? diffHTML(f, raws) : '';
     $('solution-label').textContent = ok && !sameOrder ? 'Como aparece en el formulario' : 'Solución';
     var sol = $('solution-math');
     sol.innerHTML = kx(FE.fullTex(f, FE.toTex(f.ast)), true);
     $('note').textContent = (leftList ? '✓ Superada: sale de tu lista de fallos. ' : '') + (f.note || '');
     var cont = $('btn-continue');
+    cont.textContent = S.queue.length ? 'Continuar' : 'Ver resultado';
     cont.className = 'btn ' + (ok ? 'btn-green' : 'btn-red');
     sheet.classList.add('show');
     requestAnimationFrame(function () { fitMath(sol, sol); });
     setTimeout(function () { cont.focus({ preventScroll: true }); }, 50);
   }
 
-  function skip() {
-    if (S.answered) return;
-    finish(false, true);
-  }
-
   function next() {
     if (!S.answered) return;
     $('sheet').classList.remove('show');
-    if (S.mode === 'mistakes' && !mistakesList().length) { mistakesDone(); return; }
-    if (S.round >= ROUND) { showRound(); return; }
-    newQuestion();
+    if (!S.queue.length) { showSummary(); return; }
+    loadSlot(S.queue[0]);
   }
 
   function updateStreak(bump) {
@@ -2174,59 +3473,96 @@ Market model | R_i | \alpha_i + \beta_i R_m + e_i | R_f \sigma_m |
     p.classList.toggle('hot', S.streak >= 3);
     if (bump) { p.classList.remove('bump'); void p.offsetWidth; p.classList.add('bump'); }
   }
-  function updateRound() {
-    $('round-fill').style.width = (S.round / ROUND * 100) + '%';
-    $('round-label').textContent = S.round + '/' + ROUND;
-  }
 
   function mastered() {
     return FORMULAS.filter(function (f) { return stats[f.id] && stats[f.id].k >= 2; }).length;
   }
 
-  function showRound() {
-    var c = S.roundCorrect;
-    $('ring-num').innerHTML = '<span>' + c + '<small>/' + ROUND + '</small></span>';
-    $('round-title').textContent = c >= 9 ? '¡Ronda brillante!' : c >= 7 ? '¡Buena ronda!' : c >= 5 ? 'Ronda completada' : 'Sigue así, se aprende fallando';
-    $('round-text').textContent = c + ' de ' + ROUND + ' fórmulas montadas bien';
-    $('round-sub').textContent = 'Dominas ' + mastered() + ' de ' + FORMULAS.length + ' fórmulas (2 aciertos seguidos)';
-    if (S.mode === 'mistakes') $('round-sub').textContent = mistakesList().length + ' pendientes en tu lista de fallos';
-    $('round-continue').hidden = false;
+  // ---------- Resultado del quiz ----------
+  function showSummary() {
+    var n = S.slots.length;
+    var c = S.slots.filter(function (s) { return s.status === 'ok'; }).length;
+    var r = c / n;
+    $('ring-num').innerHTML = '<span>' + c + '<small>/' + n + '</small></span>';
+    $('round-title').textContent = r >= 0.9 ? '¡Quiz brillante!' : r >= 0.7 ? '¡Buen quiz!' : r >= 0.5 ? 'Quiz completado' : 'Sigue así: se aprende fallando';
+    $('round-text').textContent = c + ' de ' + n + ' fórmulas montadas bien';
+    var sub = 'Dominas ' + mastered() + ' de ' + FORMULAS.length + ' fórmulas';
+    var cont = $('round-continue');
+    cont.hidden = false;
+    cont.textContent = 'Siguiente quiz';
+    if (S.mode === 'mistakes') {
+      var left = mistakesList().length;
+      if (!left) { sub = '¡Has vaciado tu lista de fallos!'; cont.hidden = true; }
+      else sub = left + (left === 1 ? ' fórmula sigue' : ' fórmulas siguen') + ' en tu lista de fallos';
+    }
+    $('round-sub').textContent = sub;
     var ring = $('ring-val');
     ring.style.strokeDashoffset = 326.7;
     openOverlay('round-modal');
-    setTimeout(function () { ring.style.strokeDashoffset = 326.7 * (1 - c / ROUND); }, 120);
+    setTimeout(function () { ring.style.strokeDashoffset = 326.7 * (1 - r); }, 120);
   }
-  function closeRound() {
+  function nextQuiz() {
     closeOverlay('round-modal');
-    S.round = 0; S.roundCorrect = 0;
-    updateRound();
-    newQuestion();
+    startQuiz();
   }
-
-  function mistakesDone() {
-    $('sheet').classList.remove('show');
+  function quizEmpty() {
     $('ring-num').innerHTML = '<span>✓</span>';
-    $('round-title').textContent = '¡Lista de fallos limpia!';
-    $('round-text').textContent = S.cleared ? 'Has superado ' + S.cleared + (S.cleared === 1 ? ' fórmula' : ' fórmulas') + ' en esta sesión' : 'No tienes fórmulas pendientes';
+    $('round-title').textContent = '¡Lista de fallos vacía!';
+    $('round-text').textContent = 'No tienes fórmulas pendientes';
     $('round-sub').textContent = 'Las que falles en los otros modos aparecerán aquí';
     $('round-continue').hidden = true;
-    var ring = $('ring-val');
-    ring.style.strokeDashoffset = 326.7;
+    $('ring-val').style.strokeDashoffset = 0;
     openOverlay('round-modal');
-    setTimeout(function () { ring.style.strokeDashoffset = 0; }, 120);
   }
 
-  function updateNavSub() {
-    var sub = '';
-    if (S.mode === 'topics') {
-      sub = S.topics.length === ORDER.length ? 'Todos los temas' : S.topics.length === 1 ? TOPICS[S.topics[0]].name : S.topics.length + ' temas';
-    } else if (S.mode === 'mistakes') {
-      var n = mistakesList().length;
-      sub = n + (n === 1 ? ' pendiente' : ' pendientes');
-    } else sub = FORMULAS.length + ' fórmulas';
-    $('nav-sub').textContent = sub;
+  // ---------- Hojas de información ----------
+  var FN_INFO = {
+    sqrt: 'Raíz cuadrada', ln: 'Logaritmo natural (neperiano)', exp: 'Exponencial: e elevado a lo que va entre paréntesis',
+    max: 'Máximo: el mayor de los valores separados por coma', abs: 'Valor absoluto'
+  };
+  function glossFor(raw, f) {
+    var byF = GLOSS['@' + f.id] && GLOSS['@' + f.id][raw];
+    if (byF) return byF;
+    var byT = GLOSS[f.topic] && GLOSS[f.topic][raw];
+    if (byT) return byT;
+    return GLOSS['*'][raw] || '';
   }
-
+  function openInfo(title, html) {
+    $('info-title').textContent = title;
+    $('info-body').innerHTML = html;
+    $('info-body').scrollTop = 0;
+    openOverlay('info-sheet');
+  }
+  function showDefinition() {
+    var f = S.q;
+    if (!f) return;
+    var def = DEFS[f.id] || 'Sin definición todavía.';
+    openInfo('Qué calcula', '<div class="info-card"><div class="info-kicker"><span class="dot" style="background:' + COLORS[f.topic] + '"></span>' + esc(TOPICS[f.topic].name + ' · ' + f.lm) + '</div>' +
+      '<div class="info-name">' + esc(f.name) + '</div><p class="info-def">' + esc(def) + '</p></div>' +
+      '<p class="info-foot">Toca <b>ⓘ Qué significa cada pieza</b> para ver los símbolos.</p>');
+  }
+  function showLegend() {
+    var f = S.q;
+    if (!f) return;
+    var seen = {}, rows = [];
+    S.tokens.forEach(function (t) {
+      var tok = t.tok, raw = t.raw;
+      if (seen[raw]) return;
+      var desc = '';
+      if (tok.type === 'var') desc = glossFor(raw, f);
+      else if (tok.type === 'fn') desc = FN_INFO[tok.name];
+      else if (tok.type === 'big') desc = tok.kind === 'sum' ? 'Sumatorio: suma todos los términos desde el índice inferior hasta el superior' : 'Productorio: multiplica todos los términos';
+      else if (tok.type === 'num' && raw === 'e') desc = 'Número e ≈ 2,718 (base de la capitalización continua)';
+      else if (tok.type === 'pow') return;
+      if (!desc) return;
+      seen[raw] = 1;
+      rows.push('<div class="row legend-row"><span class="legend-sym ' + chipClass(tok) + '">' + chipHTML(tok) + '</span><span class="legend-desc">' + esc(desc) + '</span></div>');
+    });
+    var body = rows.length
+      ? '<div class="group legend">' + rows.join('') + '</div><p class="info-foot">Incluye también las piezas trampa: no todas forman parte de la fórmula.</p>'
+      : '<p class="info-foot">Las piezas de esta fórmula son palabras completas, sin abreviaturas.</p>';
+    openInfo('Qué significa cada pieza', body);
+  }
   // ---------- Inicio y modos ----------
   function showScreen(name) {
     document.body.classList.toggle('on-home', name === 'home');
@@ -2271,9 +3607,10 @@ Market model | R_i | \alpha_i + \beta_i R_m + e_i | R_f \sigma_m |
 
   function goHome() {
     if (S.drag) return;
+    if (S.updateReady) { location.reload(); return; }
     $('sheet').classList.remove('show');
     closeOverlay('round-modal');
-    S.q = null;
+    S.q = null; S.slots = []; S.queue = []; S.cur = -1;
     renderHome();
     showScreen('home');
   }
@@ -2281,12 +3618,11 @@ Market model | R_i | \alpha_i + \beta_i R_m + e_i | R_f \sigma_m |
   function startMode(mode, topics) {
     S.mode = mode;
     if (topics) S.topics = topics.slice();
-    S.round = 0; S.roundCorrect = 0; S.cleared = 0; S.retry = []; S.recent = []; S.q = null;
+    S.q = null; S.lastQuiz = [];
     $('nav-mode').textContent = MODE_NAMES[mode];
-    updateRound();
     updateStreak(false);
     showScreen('play');
-    newQuestion();
+    startQuiz();
   }
 
   // Selector de temas
@@ -2317,6 +3653,7 @@ Market model | R_i | \alpha_i + \beta_i R_m + e_i | R_f \sigma_m |
 
   function renderSettings() {
     Array.prototype.forEach.call($('diff').children, function (b) { b.classList.toggle('on', b.dataset.v === settings.diff); });
+    Array.prototype.forEach.call($('qlen').children, function (b) { b.classList.toggle('on', +b.dataset.v === settings.qlen); });
     var acc = totals.answered ? Math.round(totals.correct / totals.answered * 100) + ' %' : '—';
     var seen = FORMULAS.filter(function (f) { return stats[f.id] && stats[f.id].s; }).length;
     $('progress-list').innerHTML = [
@@ -2352,13 +3689,18 @@ Market model | R_i | \alpha_i + \beta_i R_m + e_i | R_f \sigma_m |
     window.addEventListener('pointercancel', onPointerUp);
     $('btn-check').addEventListener('click', check);
     $('btn-hint').addEventListener('click', hint);
-    $('btn-skip').addEventListener('click', skip);
+    $('btn-skip').addEventListener('click', pass);
+    $('btn-def').addEventListener('click', showDefinition);
+    $('btn-legend').addEventListener('click', showLegend);
+    $('info-done').addEventListener('click', function () { closeOverlay('info-sheet'); });
+    $('info-sheet').addEventListener('click', function (e) { if (e.target === $('info-sheet')) closeOverlay('info-sheet'); });
+    $('btn-sol-legend').addEventListener('click', showLegend);
     $('btn-clear').addEventListener('click', clearAnswer);
     $('btn-continue').addEventListener('click', next);
     $('btn-settings').addEventListener('click', function () { renderSettings(); openOverlay('settings'); });
     $('settings-done').addEventListener('click', function () { closeOverlay('settings'); if (document.body.classList.contains('on-home')) renderHome(); });
     $('settings').addEventListener('click', function (e) { if (e.target === $('settings')) closeOverlay('settings'); });
-    $('round-continue').addEventListener('click', closeRound);
+    $('round-continue').addEventListener('click', nextQuiz);
     $('round-home').addEventListener('click', goHome);
     $('btn-back').addEventListener('click', goHome);
     $('home-settings').addEventListener('click', function () { renderSettings(); openOverlay('settings'); });
@@ -2405,6 +3747,12 @@ Market model | R_i | \alpha_i + \beta_i R_m + e_i | R_f \sigma_m |
       settings.diff = b.dataset.v; save(); renderSettings();
       toast('Se aplica desde la siguiente fórmula');
     });
+    $('qlen').addEventListener('click', function (e) {
+      var b = e.target.closest('button');
+      if (!b) return;
+      settings.qlen = +b.dataset.v; save(); renderSettings();
+      toast('Se aplica desde el siguiente quiz');
+    });
     $('btn-reset').addEventListener('click', function () {
       var r = $('btn-reset');
       if (!r.dataset.armed) {
@@ -2417,7 +3765,7 @@ Market model | R_i | \alpha_i + \beta_i R_m + e_i | R_f \sigma_m |
       totals = { answered: 0, correct: 0, best: 0 };
       S.streak = 0; updateStreak(false);
       save(); renderSettings();
-      if (S.q) $('mastery').innerHTML = masteryHTML(S.q);
+      if (S.q) $('mastery').innerHTML = masteryHTML(S.q, S.slots[S.cur]);
       renderHome();
       toast('Progreso reiniciado');
     });
@@ -2425,7 +3773,7 @@ Market model | R_i | \alpha_i + \beta_i R_m + e_i | R_f \sigma_m |
       var ov = anyOverlay();
       if (ov) {
         if (e.key === 'Escape' && ov.id !== 'round-modal') closeOverlay(ov.id);
-        if (e.key === 'Enter' && ov.id === 'round-modal') { e.preventDefault(); if ($('round-continue').hidden) goHome(); else closeRound(); }
+        if (e.key === 'Enter' && ov.id === 'round-modal') { e.preventDefault(); if ($('round-continue').hidden) goHome(); else nextQuiz(); }
         return;
       }
       if (!document.body.classList.contains('on-play') || !S.q) return;
@@ -2447,7 +3795,6 @@ Market model | R_i | \alpha_i + \beta_i R_m + e_i | R_f \sigma_m |
 
   function start() {
     bind();
-    updateRound();
     updateStreak(false);
     renderHome();
     showScreen('home');
@@ -2455,12 +3802,19 @@ Market model | R_i | \alpha_i + \beta_i R_m + e_i | R_f \sigma_m |
     try { if (navigator.storage && navigator.storage.persist) navigator.storage.persist(); } catch (e) { /* */ }
     try {
       if ('serviceWorker' in navigator && window.isSecureContext && location.protocol !== 'file:' && window.self === window.top) {
+        var hadController = !!navigator.serviceWorker.controller;
         navigator.serviceWorker.register('sw.js').catch(function () { /* sin modo offline */ });
+        // Cuando llega una versión nueva: se recarga sola en el inicio, o al volver al inicio si estás en un quiz
+        navigator.serviceWorker.addEventListener('controllerchange', function () {
+          if (!hadController) return;
+          if (document.body.classList.contains('on-home') && !anyOverlay()) location.reload();
+          else { S.updateReady = true; toast('Versión nueva lista: se aplicará al volver al inicio'); }
+        });
       }
     } catch (e) { /* entorno sin service workers */ }
   }
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', start); else start();
-  window.__app = { S: S, FORMULAS: FORMULAS, check: check, hint: hint, tapChip: tapChip, startMode: startMode, goHome: goHome, stats: stats };
+  window.__app = { S: S, FORMULAS: FORMULAS, check: check, hint: hint, tapChip: tapChip, startMode: startMode, goHome: goHome, stats: stats, pass: pass, glossFor: glossFor, DEFS: DEFS };
 })();
 </script>
 </body>
