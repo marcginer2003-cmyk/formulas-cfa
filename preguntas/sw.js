@@ -1,5 +1,5 @@
 // Service worker: funciona sin conexión y se actualiza solo cuando hay internet
-var CACHE = 'fallos-cfa-8dace0e31e';
+var CACHE = 'fallos-cfa-b7758eaf07';
 var ASSETS = ['./', './index.html', './data.enc', './manifest.webmanifest', './katex/katex.min.css', './icons/apple-touch-icon.png', './icons/icon-192.png'];
 self.addEventListener('install', function (e) {
   e.waitUntil(caches.open(CACHE).then(function (c) { return c.addAll(ASSETS); }).then(function () { return self.skipWaiting(); }));
